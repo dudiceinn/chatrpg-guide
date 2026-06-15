@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <defs>
+    <radialGradient id="w-aura" cx="50%" cy="55%" r="55%">
+      <stop offset="0%"  stop-color="#7fff8c" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#3f9a4a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1a3520" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="w-hat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#3a1f4a"/>
+      <stop offset="100%" stop-color="#150a1f"/>
+    </linearGradient>
+    <linearGradient id="w-cloak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#3c1a4a"/>
+      <stop offset="100%" stop-color="#0c0418"/>
+    </linearGradient>
+    <radialGradient id="w-eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#bfffc4"/>
+      <stop offset="60%" stop-color="#3aff4a"/>
+      <stop offset="100%" stop-color="#0c4014"/>
+    </radialGradient>
+  </defs>
+
+  <!-- spectral ground aura -->
+  <ellipse cx="32" cy="58" rx="22" ry="4" fill="url(#w-aura)"/>
+
+  <!-- broom shaft trailing back -->
+  <line x1="42" y1="48" x2="60" y2="60" stroke="#5a3a18" stroke-width="2" stroke-linecap="round"/>
+  <!-- broom bristles -->
+  <line x1="58" y1="58" x2="62" y2="56" stroke="#cba960" stroke-width="1.2"/>
+  <line x1="58" y1="59" x2="62" y2="58" stroke="#a98a48" stroke-width="1.2"/>
+  <line x1="58" y1="60" x2="62" y2="61" stroke="#8a7038" stroke-width="1.2"/>
+  <line x1="58" y1="61" x2="62" y2="63" stroke="#a98a48" stroke-width="1.2"/>
+
+  <!-- cloak/body (triangular silhouette) -->
+  <path d="M 18 50 L 32 28 L 46 50 Z" fill="url(#w-cloak)" stroke="#0c0418" stroke-width="0.8"/>
+  <!-- cloak tatters -->
+  <path d="M 20 50 L 23 56 L 26 50 L 29 56 L 32 50 L 35 56 L 38 50 L 41 56 L 44 50"
+        stroke="#0c0418" stroke-width="0.6" fill="none"/>
+
+  <!-- pale face -->
+  <ellipse cx="32" cy="28" rx="6" ry="6.5" fill="#cfe8c4" stroke="#3a3a3d" stroke-width="0.6"/>
+  <!-- creepy nose -->
+  <path d="M 32 27 L 35 30 L 32 31 Z" fill="#a4c498" stroke="#3a3a3d" stroke-width="0.4"/>
+  <!-- glowing green eyes -->
+  <circle cx="29.5" cy="27" r="1.4" fill="url(#w-eye)"/>
+  <circle cx="34.5" cy="27" r="1.4" fill="url(#w-eye)"/>
+  <!-- evil grin -->
+  <path d="M 29 31 Q 32 33.5 35 31" stroke="#3a0a14" stroke-width="0.7" fill="none"/>
+
+  <!-- wide-brim witch hat -->
+  <ellipse cx="32" cy="22" rx="12" ry="2.5" fill="url(#w-hat)" stroke="#0c0418" stroke-width="0.8"/>
+  <path d="M 28 22 Q 27 12 32 4 Q 33 12 36 22 Z" fill="url(#w-hat)" stroke="#0c0418" stroke-width="0.8"/>
+  <!-- hat band + buckle -->
+  <ellipse cx="32" cy="20" rx="6" ry="1.4" fill="#1c0e22" opacity="0.85"/>
+  <rect x="30.5" y="19.4" width="3" height="1.6" fill="#cba960" stroke="#3a2410" stroke-width="0.3"/>
+  <!-- bent hat tip -->
+  <path d="M 32 4 L 33 2 L 35 3" stroke="#0c0418" stroke-width="0.6" fill="none"/>
+
+  <!-- floating sparkles around -->
+  <circle cx="14" cy="36" r="0.8" fill="#bfffc4" opacity="0.85"/>
+  <circle cx="50" cy="34" r="0.7" fill="#bfffc4" opacity="0.75"/>
+  <circle cx="18" cy="44" r="0.6" fill="#7fff8c" opacity="0.6"/>
+  <circle cx="48" cy="44" r="0.6" fill="#7fff8c" opacity="0.6"/>
+</svg>
