@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Chattara RPG — How to Play</title>
+    <link rel="icon" type="image/svg+xml" href="sprites/chattara-icon.svg" />
+    <style>
+      :root {
+        --bg: #0b0e1a;
+        --ink: #e6edf3;
+        --muted: #9aa6c2;
+        --cyan: #4cc9f0;
+        --gold: #ffd86b;
+        --gold-soft: #ffe08a;
+        --grass: #4a7a30;
+        --wood: #5a4630;
+        --panel: rgba(11, 14, 26, 0.62);
+        --line: #28324f;
+        --good: #6ee07f;
+        --bad: #ff7a7a;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden;
+      }
+
+      /* ===== Full-screen 9:16 portrait stage (TikTok) ===== */
+      #stage {
+        position: relative;
+        width: min(100vw, calc(100vh * 9 / 16));
+        width: min(100vw, calc(100dvh * 9 / 16));
+        height: 100vh; height: 100dvh;
+        background: radial-gradient(120% 70% at 50% 0%, #16223c 0%, #0c1020 70%), var(--grass);
+        overflow: hidden;
+      }
+      #stage::after {
+        content: ""; position: absolute; inset: 0; pointer-events: none;
+        box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.6);
+      }
+
+      /* ===== Brand top bar (inside the stage) ===== */
+      .topbar {
+        position: absolute; top: 0; left: 0; right: 0; z-index: 6;
+        display: flex; align-items: center; gap: 12px;
+        padding: 18px 24px;
+        background: linear-gradient(180deg, rgba(8, 11, 20, 0.92), rgba(8, 11, 20, 0));
+      }
+      .site-nav { margin-left: auto; display: flex; gap: 8px; }
+      .site-nav a {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 50%;
+        font-size: 19px; text-decoration: none;
+        background: rgba(20, 26, 46, 0.85); border: 1px solid var(--line);
+      }
+      .site-nav a:hover { background: rgba(40, 50, 80, 0.95); }
+      .brand-icon { width: 46px; height: 46px; flex-shrink: 0; }
+      .brand { font-size: 26px; font-weight: 900; letter-spacing: 0.04em; color: var(--ink); }
+      .brand-rpg {
+        font-size: 13px; font-weight: 800; letter-spacing: 0.28em;
+        color: var(--bg); background: var(--gold); padding: 3px 8px; border-radius: 4px;
+      }
+
+      /* ===== Slides ===== */
+      .slide {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column; justify-content: center; gap: 18px;
+        padding: 92px 30px 112px;
+        opacity: 0; transform: translateX(28px);
+        transition: opacity 0.32s ease, transform 0.32s ease;
+        pointer-events: none; overflow-y: auto;
+      }
+      .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+      .slide.leaving { transform: translateX(-28px); }
+
+      .kicker {
+        font-size: 14px; font-weight: 800; letter-spacing: 0.22em;
+        text-transform: uppercase; color: var(--cyan);
+      }
+      .slide h2 {
+        font-size: 40px; font-weight: 900; line-height: 1.08; color: var(--gold-soft);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      }
+      .lead { font-size: 20px; color: var(--ink); line-height: 1.5; }
+      .muted { color: var(--muted); }
+      .cmd {
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        background: rgba(76, 201, 240, 0.12); border: 1px solid rgba(76, 201, 240, 0.35);
+        color: var(--cyan); padding: 1px 7px; border-radius: 6px;
+        font-weight: 700; font-size: 0.92em; white-space: nowrap;
+      }
+
+      /* row list */
+      .rows { display: flex; flex-direction: column; gap: 13px; }
+      .row {
+        display: flex; gap: 14px; align-items: flex-start;
+        background: var(--panel); border: 1px solid var(--line);
+        border-radius: 12px; padding: 15px 17px;
+      }
+      .row .ic { font-size: 32px; line-height: 1; flex-shrink: 0; width: 36px; text-align: center; }
+      .row .tx { font-size: 18px; line-height: 1.45; }
+      .row .tx b { color: var(--gold-soft); }
+
+      /* ===== Class hero (sprite + details) ===== */
+      .hero { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .platform {
+        position: relative; width: 190px; height: 176px;
+        display: flex; align-items: flex-end; justify-content: center;
+      }
+      .platform::after {
+        content: ""; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+        width: 118px; height: 26px; border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 70%);
+      }
+      .csprite {
+        width: 156px; height: 156px; position: relative; z-index: 1;
+        background-repeat: no-repeat;
+        image-rendering: pixelated; image-rendering: crisp-edges;
+      }
+      .feat { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+      .feat .f {
+        display: flex; gap: 12px; align-items: flex-start;
+        background: var(--panel); border: 1px solid var(--line);
+        border-radius: 11px; padding: 13px 15px; font-size: 18px; line-height: 1.4;
+      }
+      .feat .f .ic { font-size: 24px; flex-shrink: 0; }
+      .vs { display: flex; gap: 10px; justify-content: center; margin-top: 4px; flex-wrap: wrap; }
+      .vs span {
+        font-size: 15px; font-weight: 800; padding: 7px 14px; border-radius: 999px;
+        border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03);
+      }
+      .vs .good { color: var(--good); border-color: rgba(110, 224, 127, 0.4); }
+      .vs .bad  { color: var(--bad);  border-color: rgba(255, 122, 122, 0.4); }
+
+      /* ===== Monsters ===== */
+      .mons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .mon {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+        padding: 18px 14px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      }
+      .mon img {
+        width: 110px; height: 110px; object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+      }
+      .mon .mn { font-size: 19px; font-weight: 900; color: var(--ink); }
+      .mon .md { font-size: 15px; color: var(--muted); line-height: 1.4; text-align: center; }
+
+      .tip {
+        font-size: 16px; color: var(--gold-soft); line-height: 1.5;
+        border-left: 4px solid var(--gold); padding-left: 12px;
+      }
+
+      /* "Coming soon" highlight (e.g. ore → gold coins). */
+      .soon {
+        display: flex; align-items: center; gap: 12px;
+        font-size: 18px; font-weight: 800; color: var(--bg); line-height: 1.3;
+        background: linear-gradient(180deg, var(--gold), #f0b94a);
+        border-radius: 12px; padding: 14px 16px;
+        box-shadow: 0 4px 16px rgba(255, 216, 107, 0.35);
+      }
+      .soon .badge {
+        font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase;
+        background: rgba(11, 14, 26, 0.85); color: var(--gold-soft);
+        padding: 4px 9px; border-radius: 999px; flex-shrink: 0;
+      }
+
+      /* command table */
+      .cmds { display: flex; flex-direction: column; gap: 9px; }
+      .crow {
+        display: flex; gap: 12px; align-items: baseline;
+        background: var(--panel); border: 1px solid var(--line);
+        border-radius: 9px; padding: 11px 14px;
+      }
+      .crow .ck { flex: 0 0 140px; font-size: 16px; }
+      .crow .cv { font-size: 16px; color: var(--muted); line-height: 1.4; }
+
+      /* ===== Bottom controls: Prev / dots / Next ===== */
+      .controls {
+        position: absolute; left: 0; right: 0; bottom: 0; z-index: 6;
+        display: flex; align-items: center; justify-content: center; gap: 18px;
+        padding: 18px 20px 24px;
+        background: linear-gradient(0deg, rgba(8, 11, 20, 0.95), rgba(8, 11, 20, 0));
+      }
+      .controls button {
+        background: var(--cyan); color: var(--bg); border: none; border-radius: 8px;
+        padding: 12px 24px; font-weight: 900; font-size: 17px; font-family: inherit; cursor: pointer;
+        box-shadow: 0 4px 14px rgba(76, 201, 240, 0.35);
+      }
+      .controls button:hover { background: #6dd9ff; }
+      .controls button:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+      .dots { display: flex; gap: 8px; flex-wrap: wrap; max-width: 180px; justify-content: center; }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #2d3653; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+      .dot.active { background: var(--gold); transform: scale(1.3); }
+
+      @media (max-width: 420px) {
+        .slide h2 { font-size: 34px; }
+        .crow .ck { flex-basis: 112px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <div class="topbar">
+        <img src="sprites/chattara-icon.svg" class="brand-icon" alt="" />
+        <span class="brand">CHATTARA</span>
+        <span class="brand-rpg">RPG</span>
+        <nav class="site-nav">
+          <a href="index.html" title="Home">🏠</a>
+          <a href="leaderboards.html" title="Leaderboards">🏆</a>
+        </nav>
+      </div>
+
+      <!-- 1: Welcome -->
+      <section class="slide active">
+        <div class="kicker">How to Play</div>
+        <h2>Welcome to the Arena</h2>
+        <p class="lead"><b>Chattara RPG</b> is a live arena that plays along with the chat. Your hero mines, levels up, and fights — all from the comments.</p>
+        <div class="rows">
+          <div class="row"><span class="ic">👀</span><span class="tx">Watch your hero roam the world in real time.</span></div>
+          <div class="row"><span class="ic">💬</span><span class="tx">Steer it with simple chat commands.</span></div>
+          <div class="row"><span class="ic">🏆</span><span class="tx">Climb the leaderboard. Your progress is saved.</span></div>
+        </div>
+        <p class="tip">Use <b>Prev / Next</b> below (or the ← → keys) to flip through. Tara! 🚀</p>
+      </section>
+
+      <!-- 2: How to Join -->
+      <section class="slide">
+        <div class="kicker">Step 1</div>
+        <h2>How to Join</h2>
+        <div class="rows">
+          <div class="row"><span class="ic">⌨️</span><span class="tx">Type <span class="cmd">!join</span> in chat — and you're in the arena.</span></div>
+          <div class="row"><span class="ic">✨</span><span class="tx"><b>Or just say anything</b> — any comment auto-joins you instantly.</span></div>
+          <div class="row"><span class="ic">❤️</span><span class="tx">Tap the heart, follow, or send a gift — that drops you in too.</span></div>
+          <div class="row"><span class="ic">↩️</span><span class="tx"><b>Been here before?</b> Your level, XP and ore are saved.</span></div>
+        </div>
+        <p class="tip">A spotlight + glow flashes on your character when you join, so you can find yourself on the map.</p>
+      </section>
+
+      <!-- 3: Warrior -->
+      <section class="slide">
+        <div class="kicker">Class 1 / 4</div>
+        <h2>⚔️ Warrior</h2>
+        <div class="hero">
+          <div class="platform"><div class="csprite" data-src="sprites/warrior.png"></div></div>
+          <div class="feat">
+            <div class="f"><span class="ic">🛡️</span><span>Tanky frontline bruiser with the <b>biggest HP pool</b>.</span></div>
+            <div class="f"><span class="ic">🎯</span><span><b>25% crit chance</b> — lands double-damage smashes.</span></div>
+          </div>
+          <div class="vs"><span class="good">Strong vs 🗡️ Rogue</span><span class="bad">Weak to 🏹 Ranger</span></div>
+        </div>
+      </section>
+
+      <!-- 4: Rogue -->
+      <section class="slide">
+        <div class="kicker">Class 2 / 4</div>
+        <h2>🗡️ Rogue</h2>
+        <div class="hero">
+          <div class="platform"><div class="csprite" data-src="sprites/rouge.png"></div></div>
+          <div class="feat">
+            <div class="f"><span class="ic">💨</span><span>Slippery duelist — <b>30% dodge</b> to slip past hits.</span></div>
+            <div class="f"><span class="ic">🩸</span><span><b>Bloodlust:</b> hits harder the lower its HP drops.</span></div>
+          </div>
+          <div class="vs"><span class="good">Strong vs 🔮 Mage</span><span class="bad">Weak to ⚔️ Warrior</span></div>
+        </div>
+      </section>
+
+      <!-- 5: Mage -->
+      <section class="slide">
+        <div class="kicker">Class 3 / 4</div>
+        <h2>🔮 Mage</h2>
+        <div class="hero">
+          <div class="platform"><div class="csprite" data-src="sprites/wizard.png"></div></div>
+          <div class="feat">
+            <div class="f"><span class="ic">💥</span><span>Glass cannon — charges a spell for <b>huge burst damage</b>.</span></div>
+            <div class="f"><span class="ic">⏳</span><span>Has a cast time and the <b>lowest HP</b> — fragile but deadly.</span></div>
+          </div>
+          <div class="vs"><span class="good">Strong vs 🏹 Ranger</span><span class="bad">Weak to 🗡️ Rogue</span></div>
+        </div>
+      </section>
+
+      <!-- 6: Ranger -->
+      <section class="slide">
+        <div class="kicker">Class 4 / 4</div>
+        <h2>🏹 Ranger</h2>
+        <div class="hero">
+          <div class="platform"><div class="csprite" data-src="sprites/archer.png"></div></div>
+          <div class="feat">
+            <div class="f"><span class="ic">🎯</span><span>Agile sharpshooter with the <b>longest range</b>.</span></div>
+            <div class="f"><span class="ic">🩸</span><span>Arrows cause <b>bleed</b>, and it stays nimble even when hurt.</span></div>
+          </div>
+          <div class="vs"><span class="good">Strong vs ⚔️ Warrior</span><span class="bad">Weak to 🔮 Mage</span></div>
+        </div>
+      </section>
+
+      <!-- 7: Commands -->
+      <section class="slide">
+        <div class="kicker">Step 2</div>
+        <h2>Commands</h2>
+        <div class="cmds">
+          <div class="crow"><span class="ck"><span class="cmd">!mine</span></span><span class="cv">Dig ore at the mine.</span></div>
+          <div class="crow"><span class="ck"><span class="cmd">!exp</span></span><span class="cv">Hunt monsters for XP. (also <span class="cmd">!train</span> / <span class="cmd">!level</span>)</span></div>
+          <div class="crow"><span class="ck"><span class="cmd">!rest</span></span><span class="cv">Recover HP back at the inn.</span></div>
+          <div class="crow"><span class="ck"><span class="cmd">!repair</span></span><span class="cv">Fix your pickaxe. (also <span class="cmd">!fix</span>)</span></div>
+          <div class="crow"><span class="ck"><span class="cmd">!attack name</span></span><span class="cv">Challenge a player in the EXP field — or bonk a celebrity bot anywhere for fun.</span></div>
+          <div class="crow"><span class="ck"><span class="cmd">!stop</span></span><span class="cv">Chill out and go idle. (also <span class="cmd">!idle</span>)</span></div>
+        </div>
+        <p class="tip">The <b>!</b> is optional and spaces are fine — <span class="cmd">rest</span>, <span class="cmd">! rest</span> and <span class="cmd">!rest</span> all work.</p>
+      </section>
+
+      <!-- Auto-pilot -->
+      <section class="slide">
+        <div class="kicker">⚙️ Good to Know</div>
+        <h2>Your Hero Auto-Pilots</h2>
+        <p class="lead">No need to babysit it — after each task it loops back to idle and waits for your next command.</p>
+        <div class="rows">
+          <div class="row"><span class="ic">💔</span><span class="tx"><b>HP hits 0?</b> It limps to the inn, <b>auto-rests</b> to full, then goes idle.</span></div>
+          <div class="row"><span class="ic">⛏️</span><span class="tx"><b>Pickaxe breaks</b> while mining? It heads to the smithy, <b>auto-repairs</b>, then goes idle.</span></div>
+          <div class="row"><span class="ic">🔁</span><span class="tx">Idle again? Just send another command (<span class="cmd">!mine</span>, <span class="cmd">!exp</span>…) to keep it going.</span></div>
+          <div class="row"><span class="ic">😴</span><span class="tx"><b>Idle &amp; quiet for 3 min?</b> Your hero leaves the arena — but your progress saves, so just chat to come back.</span></div>
+        </div>
+      </section>
+
+      <!-- The Shop -->
+      <section class="slide">
+        <div class="kicker">💰 The Merchant Shop</div>
+        <h2>Trade &amp; Potions</h2>
+        <div class="rows">
+          <div class="row"><span class="ic">💰</span><span class="tx"><b><span class="cmd">!ss</span> = Shop&nbsp;Sell.</b> <span class="cmd">!ss all</span> (or <span class="cmd">!ss 50</span>) sells your ore for <b>gold</b> at the live price — 📈 sell on a <b>SURGE!</b></span></div>
+          <div class="row"><span class="ic">🧪</span><span class="tx"><b><span class="cmd">!sb</span> = Shop&nbsp;Buy.</b> <span class="cmd">!sb red</span> / <span class="cmd">blue</span> / <span class="cmd">purple</span> buys potions — carry <b>5 of one color</b> (<span class="cmd">!sb purple 3</span> for an amount).</span></div>
+          <div class="row"><span class="ic">🛟</span><span class="tx">Potions <b>auto-drink to save you</b> from a killing blow: 🔴 heal 50% · 🔵 80% · 🟣 full + an XP surge — plus a speed burst to escape!</span></div>
+        </div>
+        <p class="tip">Mine ⛏️ → <span class="cmd">!ss</span> for gold → <span class="cmd">!sb</span> for survival potions.</p>
+      </section>
+
+      <!-- Hearts & the Heart Shop -->
+      <section class="slide">
+        <div class="kicker">❤️ Hearts</div>
+        <h2>Tap to Earn — Then Flex</h2>
+        <div class="rows">
+          <div class="row"><span class="ic">❤️</span><span class="tx"><b>Every tap counts.</b> Your hearts (likes) add up forever and rank you on the <b>❤️ Top Hearts</b> board — and each tap gives your hero a quick <b>speed burst</b>.</span></div>
+          <div class="row"><span class="ic">🪽</span><span class="tx"><b><span class="cmd">!hb</span> = Heart&nbsp;Buy.</b> Spend hearts on <b>flex wings</b>: <span class="cmd">!hb 1</span> Angel (200❤️) · <span class="cmd">!hb 2</span> Iridescent (1000❤️) · <span class="cmd">!hb 3</span> Flame (500❤️).</span></div>
+          <div class="row"><span class="ic">👑</span><span class="tx">Spending <b>never lowers your total</b> — your lifetime hearts (and your rank) stay put, and your wings are <b>yours to keep</b>.</span></div>
+        </div>
+        <p class="tip">Two currencies: 💰 <b>gold</b> from mining · ❤️ <b>hearts</b> from tapping. Tap → <span class="cmd">!hb</span> → wear your wings!</p>
+      </section>
+
+      <!-- 8: PvP -->
+      <section class="slide">
+        <div class="kicker">⚔️ Player vs Player</div>
+        <h2>Duel Other Viewers</h2>
+        <div class="rows">
+          <div class="row"><span class="ic">🤺</span><span class="tx">Type <span class="cmd">!attack name</span> to challenge another player.</span></div>
+          <div class="row"><span class="ic">📍</span><span class="tx">Duels only happen in the <b>EXP field</b> — the rest of the map is safe.</span></div>
+          <div class="row"><span class="ic">🔁</span><span class="tx">Pick your matchup: <b>2× damage</b> vs the class you counter.</span></div>
+          <div class="row"><span class="ic">🏳️</span><span class="tx">They <b>fight back automatically</b>. Last one standing wins — the loser wakes at the inn, the winner gets <b>+5 XP</b>.</span></div>
+          <div class="row"><span class="ic">🟥</span><span class="tx">Strike first and you're a red-named <b>PKer</b> until you're KO'd.</span></div>
+        </div>
+        <p class="tip">For fun: you can <b>attack the celebrity bots anywhere</b> — they swing back, but they can't KO you. 😈</p>
+      </section>
+
+      <!-- 9: Daytime monsters -->
+      <section class="slide">
+        <div class="kicker">☀️ By Day</div>
+        <h2>Daytime Foes</h2>
+        <p class="lead muted">Hunt these for XP — type <span class="cmd">!exp</span> to charge in.</p>
+        <div class="mons">
+          <div class="mon">
+            <img src="sprites/slime-green.svg" alt="Slime" />
+            <div class="mn">Slime</div>
+            <div class="md">Common XP fodder. They come in green, blue &amp; red.</div>
+          </div>
+          <div class="mon">
+            <img src="sprites/treant.svg" alt="Treant" />
+            <div class="mn">Treant</div>
+            <div class="md">A tougher walking tree — more XP for the bold.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9: Night monsters -->
+      <section class="slide">
+        <div class="kicker">🌙 After Dark</div>
+        <h2>Night Foes</h2>
+        <p class="lead muted">When night falls, the world swaps to spookier monsters.</p>
+        <div class="mons">
+          <div class="mon">
+            <img src="sprites/ghost.svg" alt="Ghost" />
+            <div class="mn">Ghost</div>
+            <div class="md">Drifting night spirit that replaces the slimes.</div>
+          </div>
+          <div class="mon">
+            <img src="sprites/beholder.svg" alt="Beholder" />
+            <div class="mn">Beholder</div>
+            <div class="md">A floating eye-beast — the night's heavy hitter.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10: Your Goal -->
+      <section class="slide">
+        <div class="kicker">🏆 Your Goal</div>
+        <h2>What You're Playing For</h2>
+        <div class="rows">
+          <div class="row"><span class="ic">⭐</span><span class="tx">Level up by hunting — the cap is <b>Level 50</b>.</span></div>
+          <div class="row"><span class="ic">🏅</span><span class="tx">Four boards to top: <b>🏆 Top Level</b>, <b>⛏️ Top Ore</b>, <b>💰 Top Gold</b> &amp; <b>❤️ Top Hearts</b>.</span></div>
+          <div class="row"><span class="ic">⛏️</span><span class="tx">Ore isn't just score — it pays for <b>fast pickaxe repairs</b>.</span></div>
+          <div class="row"><span class="ic">💬</span><span class="tx">Keep chatting! Go quiet for <b>3 minutes</b> and you'll leave the arena.</span></div>
+        </div>
+        <div class="soon"><span class="badge">New</span><span>🪙 <span class="cmd">!ss</span> ore for <b>gold</b>, then <span class="cmd">!sb</span> for potions!</span></div>
+      </section>
+
+      <!-- 11: Events & Perks -->
+      <section class="slide">
+        <div class="kicker">Events &amp; Perks</div>
+        <h2>Make It Count</h2>
+        <div class="mons">
+          <div class="mon">
+            <img src="sprites/boss-treant.svg" alt="Ancient Treant" />
+            <div class="mn">Ancient Treant</div>
+            <div class="md">Boss every few minutes — type <span class="cmd">!exp</span> to join the fight!</div>
+          </div>
+          <div class="mon">
+            <img src="sprites/witch.svg" alt="Witch" />
+            <div class="mn">The Witch</div>
+            <div class="md">Each visit she curses one viewer who's gone quiet. Keep tapping ❤️ to stay safe!</div>
+          </div>
+        </div>
+        <p class="tip">There's always something happening in the arena. 🌟</p>
+      </section>
+
+      <!-- Community Hearts -->
+      <section class="slide">
+        <div class="kicker">❤️ Community Hearts</div>
+        <h2>Tap to Power Up Everyone</h2>
+        <p class="lead">Every ❤️ you tap fills the team <b>Heart Meter</b>. Hit a milestone and the <b>whole arena</b> gets a reward:</p>
+        <div class="rows">
+          <div class="row"><span class="ic">⭐</span><span class="tx"><b>100 ❤️ — XP Rain:</b> bonus XP showers on every player.</span></div>
+          <div class="row"><span class="ic">⚡</span><span class="tx"><b>250 ❤️ — Speed Frenzy:</b> the whole arena zooms with a speed boost.</span></div>
+          <div class="row"><span class="ic">🌿</span><span class="tx"><b>500 ❤️ — Healing Rain:</b> everyone heals to full, plus bonus ore.</span></div>
+        </div>
+        <p class="tip">Your taps also give <b>your</b> hero a personal speed burst — and keep you safe from the Witch. So keep tapping! ❤️</p>
+      </section>
+
+      <!-- 13: Coming Soon -->
+      <section class="slide">
+        <div class="kicker">🔮 What's Next</div>
+        <h2>Coming Soon</h2>
+        <p class="lead">The arena keeps leveling up — here's what's on the way:</p>
+        <div class="soon"><span class="badge">Soon</span><span>🛒 <b>More shop wares</b> — new potions &amp; upgrades to spend your gold on.</span></div>
+        <div class="rows">
+          <div class="row"><span class="ic">✨</span><span class="tx">…and more features dropping all the time.</span></div>
+        </div>
+        <p class="tip"><b>Follow</b> so you don't miss the drop — then type <span class="cmd">!join</span> and play. Tara! 🎮</p>
+      </section>
+
+      <div class="controls">
+        <button id="btnPrev">‹ Prev</button>
+        <div class="dots" id="dots"></div>
+        <button id="btnNext">Next ›</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // ----- Class front sprites: crop the idle/down frame exactly like the
+        // game (sheet shown at half scale; the down-idle row sits at y=-768 in
+        // that half-scale space). We scale that up uniformly for the page. -----
+        var DISPLAY = 156;            // .csprite box size, px
+        var K = DISPLAY / 32;         // game renders one frame as 32px → scale factor
+        function mountSprite(el) {
+          var src = el.getAttribute("data-src");
+          if (!src) return;
+          var img = new Image();
+          img.onload = function () {
+            el.style.backgroundImage = "url('" + src + "')";
+            el.style.backgroundSize = (img.naturalWidth / 2) * K + "px auto";
+            el.style.backgroundPosition = "0 " + (-768 * K) + "px";
+          };
+          img.src = src;
+        }
+        Array.prototype.slice.call(document.querySelectorAll(".csprite")).forEach(mountSprite);
+
+        // ----- Slide carousel -----
+        var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+        var dotsWrap = document.getElementById("dots");
+        var btnPrev = document.getElementById("btnPrev");
+        var btnNext = document.getElementById("btnNext");
+        var i = 0;
+
+        slides.forEach(function (_, idx) {
+          var d = document.createElement("div");
+          d.className = "dot" + (idx === 0 ? " active" : "");
+          d.addEventListener("click", function () { go(idx); });
+          dotsWrap.appendChild(d);
+        });
+        var dots = Array.prototype.slice.call(dotsWrap.children);
+
+        function render() {
+          slides.forEach(function (s, idx) {
+            s.classList.toggle("active", idx === i);
+            s.classList.toggle("leaving", idx < i);
+          });
+          dots.forEach(function (d, idx) { d.classList.toggle("active", idx === i); });
+          btnPrev.disabled = i === 0;
+          btnNext.disabled = i === slides.length - 1;
+        }
+        function go(n) { i = (n + slides.length) % slides.length; render(); }
+        function next() { go(i + 1); }
+        function prev() { go(i - 1); }
+
+        btnNext.addEventListener("click", function () { if (i < slides.length - 1) next(); });
+        btnPrev.addEventListener("click", function () { if (i > 0) prev(); });
+        window.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight") next();
+          else if (e.key === "ArrowLeft") prev();
+        });
+
+        var x0 = null;
+        var stage = document.getElementById("stage");
+        stage.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+        stage.addEventListener("touchend", function (e) {
+          if (x0 === null) return;
+          var dx = e.changedTouches[0].clientX - x0;
+          if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+          x0 = null;
+        }, { passive: true });
+
+        render();
+      })();
+    </script>
+  </body>
+</html>
