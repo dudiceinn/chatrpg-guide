@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 48 61" width="48" height="61">
+  <!-- Dewling: water companion (front/down view). Original design inspired by a
+       "squid-hood" silhouette: a chibi creature wearing a squid mantle as a HIGH
+       hat (the red/green buttons are a DESIGN on the hat — the squid's eyes), big
+       anime eyes on the face below, and a long flowing translucent white robe that
+       billows out to both sides and streams down like silk in water. Idle life baked
+       in (animates as an <img>/background): the robe drifts, she blinks, bubbles
+       rise, gentle head bob. WALK bob added by the game's .walking class. -->
+  <defs>
+    <linearGradient id="dw-hood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3dde8"/><stop offset="1" stop-color="#5ea3c0"/></linearGradient>
+    <linearGradient id="dw-tent" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9bdbe8"/><stop offset="1" stop-color="#49a6cb"/></linearGradient>
+    <linearGradient id="dw-skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe2d0"/><stop offset="1" stop-color="#f0c0a4"/></linearGradient>
+    <linearGradient id="dw-dress" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dcebf2"/></linearGradient>
+    <radialGradient id="dw-bg" cx="0.35" cy="0.3" r="0.7"><stop offset="0" stop-color="#8fe06a"/><stop offset="1" stop-color="#3f8a2c"/></radialGradient>
+    <radialGradient id="dw-br" cx="0.35" cy="0.3" r="0.7"><stop offset="0" stop-color="#ef6a5e"/><stop offset="1" stop-color="#b53733"/></radialGradient>
+    <style>
+      .dw-head { transform-box: fill-box; transform-origin: center bottom; animation: dw-bob 2.9s ease-in-out infinite; }
+      @keyframes dw-bob {
+        0%, 100% { transform: translateY(0)     rotate(-0.5deg); }
+        50%      { transform: translateY(-0.7px) rotate(0.5deg); }
+      }
+      .dw-eyes { transform-box: fill-box; transform-origin: center center; animation: dw-blink 5s ease-in-out infinite; }
+      @keyframes dw-blink { 0%,92%,100% { transform: scaleY(1); } 95%,97% { transform: scaleY(0.1); } }
+      /* flowing robe streamers drift like silk in water */
+      .dw-robe { transform-box: fill-box; transform-origin: center top; }
+      .dw-r1 { animation: dw-flow 3.2s ease-in-out infinite; }
+      .dw-r2 { animation: dw-flow 3.6s ease-in-out infinite; animation-delay: -0.8s; }
+      .dw-r3 { animation: dw-flow 3.0s ease-in-out infinite; animation-delay: -1.4s; }
+      .dw-r4 { animation: dw-flow 3.4s ease-in-out infinite; animation-delay: -0.5s; }
+      @keyframes dw-flow { 0%,100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
+      /* squid-hood tentacles draping at the sides of the hat */
+      .dw-tent { transform-box: fill-box; transform-origin: center top; }
+      .dw-t1 { animation: dw-sway 2.6s ease-in-out infinite; }
+      .dw-t2 { animation: dw-sway 3.0s ease-in-out infinite; animation-delay: -0.7s; }
+      .dw-t3 { animation: dw-sway 2.8s ease-in-out infinite; animation-delay: -1.3s; }
+      .dw-t4 { animation: dw-sway 3.1s ease-in-out infinite; animation-delay: -0.4s; }
+      @keyframes dw-sway { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+      .dw-bub { transform-box: fill-box; animation: dw-rise 2.5s ease-in infinite; opacity: 0; }
+      .dw-b2 { animation-duration: 3.0s; animation-delay: -0.9s; }
+      .dw-b3 { animation-duration: 2.2s; animation-delay: -1.6s; }
+      @keyframes dw-rise {
+        0%   { transform: translateY(0)     scale(0.6); opacity: 0; }
+        20%  { opacity: 0.8; }
+        100% { transform: translateY(-15px) scale(1);   opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <ellipse cx="24" cy="55" rx="12" ry="3" fill="#000" opacity="0.16"/>
+
+  <!-- BACK robe streamers: wide translucent sweep out to both sides -->
+  <g fill="#ffffff" fill-opacity="0.34" stroke="#bcdcea" stroke-width="0.7" stroke-opacity="0.7" stroke-linejoin="round">
+    <g transform="translate(19 27)"><g class="dw-robe dw-r1"><path d="M0,-2 C -9,-3 -17,0 -19,6 C -19.6,9.5 -16.5,11 -13,10 C -16,13 -16.5,18 -14,21 C -10,19 -3,9 1,1 Z"/></g></g>
+    <g transform="translate(29 27) scale(-1 1)"><g class="dw-robe dw-r2"><path d="M0,-2 C -9,-3 -17,0 -19,6 C -19.6,9.5 -16.5,11 -13,10 C -16,13 -16.5,18 -14,21 C -10,19 -3,9 1,1 Z"/></g></g>
+  </g>
+
+  <!-- legs + feet -->
+  <rect x="20.4" y="42" width="3" height="8" rx="1.5" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+  <rect x="24.6" y="42" width="3" height="8" rx="1.5" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+  <ellipse cx="21" cy="51" rx="3.6" ry="2.6" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+  <ellipse cx="27" cy="51" rx="3.6" ry="2.6" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+
+  <!-- bodice + short blue-trimmed skirt -->
+  <path d="M20 26 Q24 25 28 26 L29 37 Q24 38.5 19 37 Z" fill="url(#dw-dress)" stroke="#9cc7d6" stroke-width="1"/>
+  <path d="M17.5 36 Q24 34 30.5 36 L32 43 Q24 45 16 43 Z" fill="url(#dw-dress)" stroke="#9cc7d6" stroke-width="1"/>
+  <path d="M16.2 42.4 Q24 44.4 31.8 42.4" fill="none" stroke="#4fb3d8" stroke-width="1.5"/>
+  <path d="M18 36.4 Q24 34.6 30 36.4" fill="none" stroke="#4fb3d8" stroke-width="1.2"/>
+
+  <!-- FRONT robe streamers: drape down over the sides -->
+  <g fill="#ffffff" fill-opacity="0.6" stroke="#bcdcea" stroke-width="0.7" stroke-linejoin="round">
+    <g transform="translate(20 29)"><g class="dw-robe dw-r3"><path d="M0,0 C -6,1 -12,5 -13,12 C -13.5,16 -10.5,18 -7,18 C -9,20 -8,22 -6,22.5 C -3,19 -1,10 1,3 Z"/></g></g>
+    <g transform="translate(28 29) scale(-1 1)"><g class="dw-robe dw-r4"><path d="M0,0 C -6,1 -12,5 -13,12 C -13.5,16 -10.5,18 -7,18 C -9,20 -8,22 -6,22.5 C -3,19 -1,10 1,3 Z"/></g></g>
+  </g>
+  <!-- soft fold lines on the front drape -->
+  <g fill="none" stroke="#cfe6f0" stroke-width="0.7" stroke-linecap="round" opacity="0.9">
+    <path d="M16 33 C13 37 11.5 41 11.5 45"/>
+    <path d="M32 33 C35 37 36.5 41 36.5 45"/>
+  </g>
+
+  <!-- little hands peeking -->
+  <ellipse cx="12.5" cy="40" rx="1.9" ry="2.4" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+  <ellipse cx="35.5" cy="40" rx="1.9" ry="2.4" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="0.9"/>
+
+  <!-- rising bubbles -->
+  <g fill="#e9fcff" stroke="#bfeef7" stroke-width="0.5">
+    <circle class="dw-bub"       cx="7"  cy="33" r="1.3"/>
+    <circle class="dw-bub dw-b2" cx="41" cy="32" r="1.5"/>
+    <circle class="dw-bub dw-b3" cx="42" cy="37" r="1.1"/>
+  </g>
+
+  <!-- HEAD group: face + squid-mantle HAT (buttons are hat decoration) + anime eyes -->
+  <g class="dw-head">
+    <!-- squid-hood tentacles draping down the sides of the hat -->
+    <g fill="url(#dw-tent)" stroke="#2c6379" stroke-width="0.85" stroke-linejoin="round">
+      <g transform="translate(13 13.5) scale(1.0)"><g class="dw-tent dw-t1"><path d="M -1.5,0 C -2.8,4.5 0,7 -1.3,10.5 C -2.7,13.5 -0.9,16.5 1,17 C 2.3,16.5 2,14 1.2,12 C 0,9 1.5,5 1.5,0 Z"/></g></g>
+      <g transform="translate(15.2 15) scale(0.82)"><g class="dw-tent dw-t2"><path d="M -1.5,0 C -2.8,4.5 0,7 -1.3,10.5 C -2.7,13.5 -0.9,16.5 1,17 C 2.3,16.5 2,14 1.2,12 C 0,9 1.5,5 1.5,0 Z"/></g></g>
+      <g transform="translate(35 13.5) scale(-1.0 1.0)"><g class="dw-tent dw-t3"><path d="M -1.5,0 C -2.8,4.5 0,7 -1.3,10.5 C -2.7,13.5 -0.9,16.5 1,17 C 2.3,16.5 2,14 1.2,12 C 0,9 1.5,5 1.5,0 Z"/></g></g>
+      <g transform="translate(32.8 15) scale(-0.82 0.82)"><g class="dw-tent dw-t4"><path d="M -1.5,0 C -2.8,4.5 0,7 -1.3,10.5 C -2.7,13.5 -0.9,16.5 1,17 C 2.3,16.5 2,14 1.2,12 C 0,9 1.5,5 1.5,0 Z"/></g></g>
+    </g>
+
+    <!-- face (peach), shows below the hat brim -->
+    <ellipse cx="24" cy="19" rx="8.6" ry="7.8" fill="url(#dw-skin)" stroke="#cf926e" stroke-width="1.2"/>
+
+    <!-- squid-mantle HAT pulled down over the forehead; brim sits just above the eyes -->
+    <path d="M24 -1.5 C31 -0.5 36 5 36 13 C36 15 34.6 16.4 32.8 15.8 C29.5 14 26.8 14.5 24 14.5 C21.2 14.5 18.5 14 15.2 15.8 C13.4 16.4 12 15 12 13 C12 5 17 -0.5 24 -1.5 Z"
+          fill="url(#dw-hood)" stroke="#2c6379" stroke-width="1.4" stroke-linejoin="round"/>
+    <!-- little squid fins on the hat + soft highlight -->
+    <path d="M13 5 C9 3 7 5 8.5 8 C10 9 12 8 13.5 7 Z" fill="url(#dw-hood)" stroke="#2c6379" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M35 5 C39 3 41 5 39.5 8 C38 9 36 8 34.5 7 Z" fill="url(#dw-hood)" stroke="#2c6379" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M24 0.5 C20 1 16.5 5 16 9.5 C20 7.5 28 7.5 32 9.5 C31.5 5 28 1 24 0.5 Z" fill="#d6eef4" opacity="0.5"/>
+
+    <!-- mismatched BUTTON DESIGN on the hat (the squid's eyes) -->
+    <g stroke="#2c4f5c" stroke-width="0.5">
+      <circle cx="18.7" cy="6.5" r="2.7" fill="url(#dw-bg)"/>
+      <circle cx="18.7" cy="6.5" r="1.6" fill="none" stroke="#cdeec0" stroke-width="0.5"/>
+      <path d="M17.5 5.3 L19.9 7.7 M19.9 5.3 L17.5 7.7" stroke="#1f3a1a" stroke-width="0.6" stroke-linecap="round"/>
+    </g>
+    <g stroke="#5c2c2c" stroke-width="0.5">
+      <circle cx="29.3" cy="6.5" r="2.7" fill="url(#dw-br)"/>
+      <circle cx="29.3" cy="6.5" r="1.6" fill="none" stroke="#f6d2cd" stroke-width="0.5"/>
+      <path d="M28.1 5.3 L30.5 7.7 M30.5 5.3 L28.1 7.7" stroke="#4a1714" stroke-width="0.6" stroke-linecap="round"/>
+    </g>
+
+    <!-- big anime eyes on the face (blink) -->
+    <g class="dw-eyes">
+      <path d="M15.8 16.6 Q19.5 14.4 23 16.6" fill="none" stroke="#7a4a36" stroke-width="0.8" stroke-linecap="round"/>
+      <path d="M25 16.6 Q28.5 14.4 32.2 16.6" fill="none" stroke="#7a4a36" stroke-width="0.8" stroke-linecap="round"/>
+      <ellipse cx="19.4" cy="19.6" rx="3" ry="3.7" fill="#fff" stroke="#7a4a36" stroke-width="0.6"/>
+      <ellipse cx="28.6" cy="19.6" rx="3" ry="3.7" fill="#fff" stroke="#7a4a36" stroke-width="0.6"/>
+      <circle cx="19.7" cy="20" r="2.5" fill="#2f5a63"/>
+      <circle cx="28.3" cy="20" r="2.5" fill="#2f5a63"/>
+      <circle cx="18.6" cy="18.6" r="1.0" fill="#fff"/>
+      <circle cx="27.5" cy="18.6" r="1.0" fill="#fff"/>
+      <circle cx="20.6" cy="21" r="0.55" fill="#fff" opacity="0.85"/>
+      <circle cx="29.5" cy="21" r="0.55" fill="#fff" opacity="0.85"/>
+    </g>
+
+    <!-- nose hint, soft smile, blush -->
+    <path d="M22.8 23.2 Q24 24.4 25.2 23.2" fill="none" stroke="#b9744f" stroke-width="0.9" stroke-linecap="round"/>
+    <ellipse cx="16.6" cy="22.4" rx="1.7" ry="1.1" fill="#f3a6a0" opacity="0.5"/>
+    <ellipse cx="31.4" cy="22.4" rx="1.7" ry="1.1" fill="#f3a6a0" opacity="0.5"/>
+  </g>
+</svg>

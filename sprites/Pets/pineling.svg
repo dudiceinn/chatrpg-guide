@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 48 61" width="48" height="61">
+  <!-- Pineling: original grass companion (front/down view). A little fir-tree
+       critter — layered green pine crown, pale face, woody zigzag-edged trunk body,
+       leafy arms, stubby feet. Original IP (inspired by a snow-conifer silhouette,
+       redrawn green for grass). Idle life baked in (animates as an <img>/background):
+       the pine crown sways, leafy arms flutter, spores drift up, gentle bob + blink.
+       WALK bob is added by the game's .walking class only while it moves. -->
+  <defs>
+    <linearGradient id="pl-pine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79c95f"/><stop offset="1" stop-color="#358033"/></linearGradient>
+    <linearGradient id="pl-face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f7e4"/><stop offset="1" stop-color="#d8e8bf"/></linearGradient>
+    <linearGradient id="pl-bark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bb8553"/><stop offset="1" stop-color="#7c4f29"/></linearGradient>
+    <linearGradient id="pl-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#88d167"/><stop offset="1" stop-color="#4d9a40"/></linearGradient>
+    <radialGradient id="pl-spore" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#dff7a8"/><stop offset="1" stop-color="#a9da6a" stop-opacity="0"/></radialGradient>
+    <style>
+      .pl-head { transform-box: fill-box; transform-origin: center bottom; animation: pl-bob 3s ease-in-out infinite; }
+      @keyframes pl-bob {
+        0%,100% { transform: translateY(0)     rotate(-0.5deg); }
+        50%     { transform: translateY(-0.7px) rotate(0.5deg); }
+      }
+      .pl-crown { transform-box: fill-box; transform-origin: center bottom; animation: pl-sway 3.4s ease-in-out infinite; }
+      @keyframes pl-sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+      .pl-eyes { transform-box: fill-box; transform-origin: center center; animation: pl-blink 5s ease-in-out infinite; }
+      @keyframes pl-blink { 0%,92%,100% { transform: scaleY(1); } 95%,97% { transform: scaleY(0.1); } }
+      .pl-arm-l, .pl-arm-r { transform-box: fill-box; }
+      .pl-arm-l { transform-origin: right center; animation: pl-flap-l 2.2s ease-in-out infinite; }
+      .pl-arm-r { transform-origin: left  center; animation: pl-flap-r 2.2s ease-in-out infinite; animation-delay: -0.3s; }
+      @keyframes pl-flap-l { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(4deg); } }
+      @keyframes pl-flap-r { 0%,100% { transform: rotate(3deg);  } 50% { transform: rotate(-4deg); } }
+      .pl-mote { transform-box: fill-box; animation: pl-rise 3s ease-in infinite; opacity: 0; }
+      .pl-m2 { animation-duration: 3.6s; animation-delay: -1.1s; }
+      .pl-m3 { animation-duration: 2.7s; animation-delay: -2.0s; }
+      @keyframes pl-rise {
+        0%   { transform: translateY(0)     scale(0.5); opacity: 0; }
+        25%  { opacity: 0.9; }
+        100% { transform: translateY(-16px) scale(1);   opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <ellipse cx="24" cy="54" rx="13" ry="3" fill="#000" opacity="0.16"/>
+
+  <!-- leafy arms (behind body, raised + out, flutter) -->
+  <g>
+    <g transform="translate(15 26)"><g class="pl-arm-l">
+      <path d="M0,3 Q-11,-5 -21,-9 Q-9,0 0,4.5 Z" fill="url(#pl-leaf)" stroke="#3a7d33" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M-1,3.4 Q-10,-2 -19,-8" fill="none" stroke="#3a7d33" stroke-width="0.7" opacity="0.7"/>
+    </g></g>
+    <g transform="translate(33 26)"><g class="pl-arm-r">
+      <path d="M0,3 Q11,-5 21,-9 Q9,0 0,4.5 Z" fill="url(#pl-leaf)" stroke="#3a7d33" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M1,3.4 Q10,-2 19,-8" fill="none" stroke="#3a7d33" stroke-width="0.7" opacity="0.7"/>
+    </g></g>
+  </g>
+
+  <!-- stubby feet -->
+  <ellipse cx="18" cy="48" rx="5" ry="3.4" fill="url(#pl-bark)" stroke="#5e3c20" stroke-width="1.1"/>
+  <ellipse cx="30" cy="48" rx="5" ry="3.4" fill="url(#pl-bark)" stroke="#5e3c20" stroke-width="1.1"/>
+
+  <!-- woody trunk body -->
+  <path d="M13 30 C11 38 13 46 18 47 Q24 49 30 47 C35 46 37 38 35 30 C30 27 18 27 13 30 Z" fill="url(#pl-bark)" stroke="#5e3c20" stroke-width="1.3"/>
+  <!-- bark zig lines -->
+  <g fill="none" stroke="#67421f" stroke-width="0.8" opacity="0.6" stroke-linecap="round">
+    <path d="M16 36 L19 34 L22 36 L25 34 L28 36 L31 34"/>
+    <path d="M16 41 L19 39 L22 41 L25 39 L28 41 L31 39"/>
+  </g>
+
+  <!-- rising spores -->
+  <g>
+    <circle class="pl-mote"     cx="9"  cy="30" r="1.8" fill="url(#pl-spore)"/>
+    <circle class="pl-mote pl-m2" cx="39" cy="28" r="2.1" fill="url(#pl-spore)"/>
+    <circle class="pl-mote pl-m3" cx="11" cy="24" r="1.5" fill="url(#pl-spore)"/>
+  </g>
+
+  <!-- HEAD: pale face + pine crown (bobs gently) -->
+  <g class="pl-head">
+    <!-- pale face/chest with a jagged lower edge over the trunk -->
+    <path d="M13 18 C13 12 17 10 24 10 C31 10 35 12 35 18 L35 26 L32 30 L29 26 L26 30 L23 26 L20 30 L17 26 L14 30 L13 26 Z" fill="url(#pl-face)" stroke="#b9caa0" stroke-width="1.1" stroke-linejoin="round"/>
+
+    <!-- eyes (blink) -->
+    <g class="pl-eyes">
+      <ellipse cx="19.5" cy="18" rx="2" ry="2.8" fill="#2f3a1e"/>
+      <ellipse cx="28.5" cy="18" rx="2" ry="2.8" fill="#2f3a1e"/>
+      <circle cx="18.9" cy="17" r="0.7" fill="#fff" opacity="0.9"/>
+      <circle cx="27.9" cy="17" r="0.7" fill="#fff" opacity="0.9"/>
+    </g>
+    <!-- soft cheeks -->
+    <ellipse cx="15.5" cy="21" rx="1.8" ry="1.2" fill="#9fcf6e" opacity="0.5"/>
+    <ellipse cx="32.5" cy="21" rx="1.8" ry="1.2" fill="#9fcf6e" opacity="0.5"/>
+
+    <!-- layered pine crown (sways in the breeze) -->
+    <g class="pl-crown" fill="url(#pl-pine)" stroke="#2f6b2c" stroke-width="1.1" stroke-linejoin="round">
+      <path d="M24 4 C29 6 34 10 37 13 Q33 12.5 31 14 Q28 12.5 26 14 Q24 12.5 22 14 Q20 12.5 17 14 Q14 12.5 11 13 C14 10 19 6 24 4 Z"/>
+      <path d="M24 0 C28 2 32 5 34 8 Q31 7.5 29 9 Q26 7.5 24 9 Q22 7.5 19 9 Q16 7.5 14 8 C16 5 20 2 24 0 Z"/>
+      <path d="M24 -4 C27 -2 30 1 32 3 Q29 2.5 27 4 Q24 2.5 21 4 Q18 2.5 16 3 C18 1 21 -2 24 -4 Z"/>
+    </g>
+  </g>
+</svg>
