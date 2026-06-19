@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>ChatRPG — Shop Showcase</title>
+<style>
+  :root { --bg:#07090f; --panel:#141a2e; --line:#26314f; --gold:#ffd86b; --gold-soft:#ffe08a; --txt:#e6edf3; --dim:#9aa6c2; }
+  * { box-sizing:border-box; }
+  html, body { height:100%; margin:0; }
+  body { background:radial-gradient(900px 700px at 50% -10%, #161d33, #07090f 60%); color:var(--txt);
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased;
+         display:flex; align-items:center; justify-content:center; padding:10px; overflow:hidden; }
+
+  /* Vertical 9:16 frame — fills a phone screen, centered phone-frame on desktop. */
+  .frame { position:relative; container-type:size; aspect-ratio:9/16; height:min(97svh, 920px); max-width:97vw;
+           border-radius:26px; overflow:hidden; border:1px solid var(--line);
+           background:radial-gradient(130% 80% at 50% 0%, #1b2440, #0b0f1d 62%);
+           box-shadow:0 24px 70px rgba(0,0,0,0.6); display:flex; flex-direction:column; }
+
+  /* Top bar: brand + live counter + play/pause */
+  .bar { display:flex; align-items:center; gap:8px; padding:3.4cqh 4.6cqw 0; }
+  .bar .brand { font-weight:900; font-size:clamp(13px,3.8cqw,19px); letter-spacing:0.02em; }
+  .bar .brand b { color:var(--gold); }
+  .bar .count { margin-left:auto; font-weight:800; font-size:clamp(11px,3cqw,15px); color:var(--dim);
+                background:rgba(255,255,255,0.05); border:1px solid var(--line); padding:3px 10px; border-radius:999px; }
+  .bar .pp { width:clamp(30px,8cqw,40px); height:clamp(30px,8cqw,40px); flex:0 0 auto; cursor:pointer;
+             border:1px solid var(--line); background:rgba(255,255,255,0.05); color:var(--gold);
+             border-radius:50%; font-size:clamp(13px,3.6cqw,17px); display:flex; align-items:center; justify-content:center; }
+  .bar .pp:hover { background:rgba(255,255,255,0.1); }
+
+  /* Slide content */
+  .stage { flex:1; position:relative; display:flex; }
+  .slide { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center;
+           padding:1.5cqh 7cqw 2cqh; gap:1.4cqh; }
+  .slide.in .art-wrap, .slide.in .meta > * { animation:rise .42s ease both; }
+  .slide.in .meta > *:nth-child(2){ animation-delay:.04s; }
+  .slide.in .meta > *:nth-child(3){ animation-delay:.08s; }
+  .slide.in .meta > *:nth-child(4){ animation-delay:.12s; }
+  @keyframes rise { from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+
+  .kicker { font-size:clamp(11px,3.3cqw,16px); font-weight:800; letter-spacing:0.18em; text-transform:uppercase;
+            color:var(--accent,#fff); text-shadow:0 0 14px var(--glow,transparent); }
+  .art-wrap { height:40cqh; width:100%; display:flex; align-items:center; justify-content:center; margin-top:1cqh;
+              background:radial-gradient(circle at 50% 46%, var(--glow,rgba(255,255,255,.1)), transparent 64%); }
+  .art-wrap svg { height:30cqh; width:auto; }
+  .art-wrap img { height:34cqh; width:auto; object-fit:contain; filter:drop-shadow(0 12px 20px rgba(0,0,0,0.6)); }
+
+  .meta { display:flex; flex-direction:column; align-items:center; gap:1.3cqh; width:100%; }
+  .title { font-size:clamp(28px,10cqw,52px); font-weight:900; line-height:1.02; }
+  .chips { display:flex; gap:7px; flex-wrap:wrap; justify-content:center; }
+  .chip { font-size:clamp(11px,3.1cqw,15px); font-weight:800; padding:4px 12px; border-radius:999px;
+          border:1px solid var(--line); background:rgba(255,255,255,0.04); }
+  .pills { display:flex; gap:9px; flex-wrap:wrap; justify-content:center; align-items:center; }
+  .price { font-size:clamp(15px,4.6cqw,22px); font-weight:900; color:var(--bg);
+           background:var(--accent,#ffd86b); padding:5px 16px; border-radius:999px; box-shadow:0 4px 16px var(--glow,transparent); }
+  .cmd { font-size:clamp(13px,3.8cqw,18px); font-weight:800; color:var(--gold);
+         background:rgba(255,216,107,0.12); border:1px solid rgba(255,216,107,0.4); padding:5px 14px; border-radius:999px; }
+  .desc { font-size:clamp(14px,4.2cqw,20px); color:var(--dim); line-height:1.5; max-width:42ch; }
+  .desc b { color:var(--txt); }
+
+  /* Tap zones (left/right halves) for thumb navigation */
+  .tap { position:absolute; top:14%; bottom:14%; width:34%; z-index:4; cursor:pointer; }
+  .tap.l { left:0; } .tap.r { right:0; }
+
+  /* Arrows */
+  .arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:clamp(36px,9cqw,46px); height:clamp(36px,9cqw,46px);
+           border:1px solid var(--line); background:rgba(11,15,29,0.7); color:var(--gold); border-radius:50%;
+           font-size:clamp(20px,5.4cqw,26px); font-weight:900; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .arrow:hover { background:rgba(27,36,64,0.9); }
+  .arrow.prev { left:2.6cqw; } .arrow.next { right:2.6cqw; }
+
+  /* Dots */
+  .dots { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:0 6cqw 3cqh; }
+  .dot { width:clamp(7px,1.8cqw,9px); height:clamp(7px,1.8cqw,9px); border-radius:50%; background:var(--line); cursor:pointer; transition:transform .15s, background .15s; }
+  .dot.active { background:var(--gold); transform:scale(1.35); }
+
+  /* Progress bar under top bar (autoplay timer) */
+  .prog { height:3px; background:rgba(255,255,255,0.06); margin:1.6cqh 4.6cqw 0; border-radius:2px; overflow:hidden; }
+  .prog > i { display:block; height:100%; width:0; background:var(--gold); }
+  .prog.run > i { animation:fill var(--dur,4000ms) linear forwards; }
+  @keyframes fill { from{width:0;} to{width:100%;} }
+
+  .home { position:absolute; left:50%; bottom:0.6cqh; transform:translateX(-50%); z-index:6;
+          font-size:clamp(10px,2.7cqw,13px); color:var(--dim); }
+  .home a { color:var(--dim); text-decoration:none; } .home a:hover { color:var(--txt); }
+</style>
+</head>
+<body>
+<!-- Shared SVG defs (wings gradients + potion flask clip/gradients) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="wg-angel" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.6" stop-color="#fff4d0"/><stop offset="1" stop-color="#ffd86b"/></linearGradient>
+  <linearGradient id="wg-iri" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#aef0ff"/><stop offset="0.5" stop-color="#b18cff"/><stop offset="1" stop-color="#ff9ad5"/></linearGradient>
+  <linearGradient id="wg-flame" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffe9a8"/><stop offset="0.5" stop-color="#ff7a2e"/><stop offset="1" stop-color="#d8324b"/></linearGradient>
+  <clipPath id="potclip"><path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z"/></clipPath>
+  <linearGradient id="pgrad-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8a94"/><stop offset="1" stop-color="#c81e3a"/></linearGradient>
+  <linearGradient id="pgrad-blue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ec4ff"/><stop offset="1" stop-color="#1e5fc8"/></linearGradient>
+  <linearGradient id="pgrad-purple" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf8aff"/><stop offset="1" stop-color="#7a1ec8"/></linearGradient>
+</defs></svg>
+
+<div class="frame" id="frame">
+  <div class="bar">
+    <div class="brand"><b>CHATTARA</b> RPG · Shop</div>
+    <button class="pp" id="pp" aria-label="Play / pause">❚❚</button>
+    <div class="count" id="count">1 / 10</div>
+  </div>
+  <div class="prog" id="prog"><i></i></div>
+
+  <div class="stage">
+    <div class="tap l" id="tapL"></div>
+    <div class="tap r" id="tapR"></div>
+    <div class="slide" id="slide"></div>
+    <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
+    <button class="arrow next" id="next" aria-label="Next">›</button>
+  </div>
+
+  <div class="dots" id="dots"></div>
+  <div class="home"><a href="index.html">← chattara rpg</a></div>
+</div>
+
+<script>
+  // ---- art builders (mirror the in-game sprites) ----
+  var WP = "M50,54 C53,30 67,16 87,15 Q82,23 84,27 Q76,28 78,33 Q69,35 71,40 Q62,42 63,47 Q56,50 50,54 Z";
+  var WV = "M53,52 Q66,32 83,19 M55,52 Q66,38 77,31 M57,52 Q65,43 71,40";
+  function wing(grad, stroke, glow) {
+    return '<svg viewBox="0 0 100 80" style="filter:drop-shadow(0 0 4px ' + glow + ')">' +
+      '<g stroke="' + stroke + '" stroke-linejoin="round">' +
+      '<g fill="url(#' + grad + ')" stroke-width="0.7"><path d="' + WP + '"/><path d="' + WP + '" transform="translate(100,0) scale(-1,1)"/></g>' +
+      '<g fill="none" stroke-width="0.5" opacity="0.4"><path d="' + WV + '"/><path d="' + WV + '" transform="translate(100,0) scale(-1,1)"/></g>' +
+      '</g></svg>';
+  }
+  function potion(grad, surf) {
+    return '<svg viewBox="0 0 48 64">' +
+      '<rect x="18" y="2" width="12" height="6" rx="1.5" fill="#b9824a"/><rect x="19.5" y="6" width="9" height="4" fill="#8a5e34"/>' +
+      '<g clip-path="url(#potclip)"><rect x="8" y="33" width="32" height="31" fill="url(#' + grad + ')"/>' +
+      '<ellipse cx="24" cy="33" rx="16" ry="2.6" fill="' + surf + '" opacity="0.85"/>' +
+      '<circle cx="20" cy="45" r="1.6" fill="#fff" opacity="0.5"/><circle cx="27" cy="51" r="1.2" fill="#fff" opacity="0.45"/><circle cx="23" cy="57" r="0.9" fill="#fff" opacity="0.4"/></g>' +
+      '<path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z" fill="rgba(255,255,255,0.05)" stroke="#dfeaff" stroke-width="1.4" stroke-linejoin="round"/>' +
+      '<rect x="15" y="16.5" width="18" height="4.5" rx="2.2" fill="#dfeaff"/>' +
+      '<path d="M19.5,30 q-3.5,6 -1.5,12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/></svg>';
+  }
+  function pet(src) { return '<img src="' + src + '" alt="">'; }
+
+  // ---- slides: wings, potions, pets ----
+  var SLIDES = [
+    { kicker:"Flex Wing · !hb 1", art:wing("wg-angel","#e8c46a","rgba(255,220,120,.9)"), accent:"#ffd86b", glow:"rgba(255,216,107,.45)",
+      title:"Angel Wings", price:"200 ❤️", cmd:"!hb 1",
+      desc:"Soft white-and-gold feathered wings haloed in a warm glow. The classic, clean flex — pure and angelic." },
+    { kicker:"Flex Wing · !hb 2", art:wing("wg-iri","#9b7fe0","rgba(180,140,255,.9)"), accent:"#b18cff", glow:"rgba(177,140,255,.45)",
+      title:"Iridescent Wings", price:"1000 ❤️", cmd:"!hb 2",
+      desc:"Aqua-to-violet-to-pink wings that shimmer and shift as your hero moves. The premium top-tier stunner." },
+    { kicker:"Flex Wing · !hb 3", art:wing("wg-flame","#b23a1e","rgba(255,120,40,.95)"), accent:"#ff7a2e", glow:"rgba(255,122,46,.45)",
+      title:"Flame Wings", price:"500 ❤️", cmd:"!hb 3",
+      desc:"Blazing ember wings trailing orange heat and a fiery edge. For the bold who want to make an entrance." },
+
+    { kicker:"Survival Potion · !sb", art:potion("pgrad-red","#ff8a94"), accent:"#ff5a6a", glow:"rgba(255,90,106,.4)",
+      title:"Red Potion", price:"15 g", cmd:"!sb red",
+      desc:"Cheap and reliable — auto-drinks to heal <b>50% HP</b> the instant a hit would drop you, plus a getaway speed burst." },
+    { kicker:"Survival Potion · !sb", art:potion("pgrad-blue","#7ec4ff"), accent:"#4f9bff", glow:"rgba(79,155,255,.4)",
+      title:"Blue Potion", price:"25 g", cmd:"!sb blue",
+      desc:"The mid-tier lifesaver — restores <b>80% HP</b> on a killing blow and kicks in a longer speed burst to flee." },
+    { kicker:"Survival Potion · !sb", art:potion("pgrad-purple","#cf8aff"), accent:"#b14eff", glow:"rgba(177,78,255,.4)",
+      title:"Purple Potion", price:"40 g", cmd:"!sb purple",
+      desc:"The premium brew — a <b>full heal</b> plus a <b>+30% XP surge</b> and speed boost. The survivor's pick." },
+
+    { kicker:"Pet · No. 001", art:pet("sprites/Pets/emberling.svg"), accent:"#ff8a3a", glow:"rgba(255,120,40,.45)",
+      title:"Emberling", chips:["🔥 Fire","Starter"],
+      desc:"A fire-lizard companion whose crest flickers like a living candle. Loyal and toasty-warm, it leaves little ember sparks as it pads after your hero." },
+    { kicker:"Pet · No. 002", art:pet("sprites/Pets/dewling.svg"), accent:"#56b0ff", glow:"rgba(80,170,255,.45)",
+      title:"Dewling", chips:["💧 Water","Curious"],
+      desc:"A shy water-sprite hiding beneath a squid-hood mantle worn like a tall hat. It bobs along on a cushion of cool mist." },
+    { kicker:"Pet · No. 003", art:pet("sprites/Pets/pineling.svg"), accent:"#5ec86e", glow:"rgba(90,200,110,.45)",
+      title:"Pineling", chips:["🌲 Grass","Sturdy"],
+      desc:"A pint-sized fir-tree critter with a layered pine crown and stubby wooden feet. Calm, rooted, and never seems to tire." },
+    { kicker:"Pet · No. 004", art:pet("sprites/Pets/hootling.svg"), accent:"#c8aaff", glow:"rgba(200,170,255,.45)",
+      title:"Hootling", chips:["🌙 Air","Night Owl"],
+      desc:"An owl-moth companion with soft, silent wings and big watchful eyes. Most lively once the arena turns to night." },
+  ];
+
+  var slide = document.getElementById("slide"), dotsEl = document.getElementById("dots"),
+      countEl = document.getElementById("count"), prog = document.getElementById("prog"),
+      ppBtn = document.getElementById("pp");
+  var i = 0, playing = true, DUR = 4200, timer = null;
+
+  dotsEl.innerHTML = SLIDES.map(function(_, n){ return '<span class="dot" data-i="' + n + '"></span>'; }).join("");
+  var dots = dotsEl.querySelectorAll(".dot");
+  document.documentElement.style.setProperty("--dur", DUR + "ms");
+
+  function render() {
+    var s = SLIDES[i];
+    var pill = s.chips
+      ? '<div class="chips">' + s.chips.map(function(c){ return '<span class="chip">' + c + '</span>'; }).join("") + '</div>' +
+        '<div class="pills"><span class="cmd">🎲 Hearts Gacha · soon</span></div>'
+      : '<div class="pills"><span class="price">' + s.price + '</span><span class="cmd">' + s.cmd + '</span></div>';
+    slide.style.setProperty("--accent", s.accent);
+    slide.style.setProperty("--glow", s.glow);
+    slide.classList.remove("in"); void slide.offsetWidth; slide.classList.add("in");
+    slide.innerHTML =
+      '<div class="art-wrap">' + s.art + '</div>' +
+      '<div class="meta">' +
+        '<div class="kicker">' + s.kicker + '</div>' +
+        '<div class="title">' + s.title + '</div>' +
+        pill +
+        '<div class="desc">' + s.desc + '</div>' +
+      '</div>';
+    countEl.textContent = (i + 1) + " / " + SLIDES.length;
+    dots.forEach(function(d, n){ d.classList.toggle("active", n === i); });
+    restartProgress();
+  }
+  function restartProgress() {
+    prog.classList.remove("run"); void prog.offsetWidth;
+    if (playing) prog.classList.add("run");
+  }
+  function go(n) { i = (n + SLIDES.length) % SLIDES.length; render(); resetTimer(); }
+  function resetTimer() {
+    if (timer) clearTimeout(timer);
+    if (playing) timer = setTimeout(function(){ go(i + 1); }, DUR);
+  }
+  function setPlaying(p) {
+    playing = p; ppBtn.textContent = p ? "❚❚" : "▶";
+    if (!p) { prog.classList.remove("run"); if (timer) clearTimeout(timer); }
+    else { restartProgress(); resetTimer(); }
+  }
+
+  document.getElementById("prev").addEventListener("click", function(e){ e.stopPropagation(); go(i - 1); });
+  document.getElementById("next").addEventListener("click", function(e){ e.stopPropagation(); go(i + 1); });
+  document.getElementById("tapL").addEventListener("click", function(){ go(i - 1); });
+  document.getElementById("tapR").addEventListener("click", function(){ go(i + 1); });
+  ppBtn.addEventListener("click", function(e){ e.stopPropagation(); setPlaying(!playing); });
+  dotsEl.addEventListener("click", function(e){ var d = e.target.closest(".dot"); if (d) go(parseInt(d.dataset.i, 10)); });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowLeft") go(i - 1);
+    else if (e.key === "ArrowRight") go(i + 1);
+    else if (e.key === " ") { e.preventDefault(); setPlaying(!playing); }
+  });
+  // swipe
+  var sx = null;
+  var frame = document.getElementById("frame");
+  frame.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, { passive:true });
+  frame.addEventListener("touchend", function(e){
+    if (sx === null) return; var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1)); sx = null;
+  }, { passive:true });
+
+  render();
+  resetTimer();
+</script>
+</body>
+</html>
