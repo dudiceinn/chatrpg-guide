@@ -48,33 +48,54 @@
   .feat p { margin:0; color:var(--dim); font-size:13px; line-height:1.45; }
   @media (max-width:460px){ .hero h1{font-size:34px;} .feats{grid-template-columns:1fr;} }
 
-  /* Shop catalog: flex wings (!hb) + potions (!sb) */
+  /* Shop catalog: flex wings (!hb) + potions (!sb) — list rows w/ descriptions */
   .shop { margin-top:34px; }
-  .shop-sub { display:flex; align-items:center; gap:7px; font-weight:800; font-size:14px; margin:14px 2px 8px; }
+  .shop-sub { display:flex; align-items:center; gap:7px; font-weight:800; font-size:14px; margin:16px 2px 9px; }
   .shop-sub .cmd { font-size:12px; }
   .shop-sub .pay { margin-left:auto; color:var(--dim); font-weight:700; font-size:12px; }
-  .catalog { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-  .cat { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px 8px;
-         text-align:center; display:flex; flex-direction:column; align-items:center; gap:6px; }
-  .cat .art { width:78px; height:62px; display:flex; align-items:center; justify-content:center; }
-  .cat .art svg { width:78px; height:62px; }
-  .cat .art .pot { font-size:44px; line-height:1; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.5)); }
-  .cat .cn { font-weight:900; font-size:14px; }
-  .cat .cp { font-size:12px; font-weight:800; color:var(--gold-soft);
+  .catalog { display:flex; flex-direction:column; gap:10px; }
+  .cat { background:var(--panel); border:1px solid var(--line); border-radius:14px;
+         padding:12px 14px; display:flex; align-items:center; gap:14px; }
+  .cat .art { flex:0 0 64px; width:64px; height:60px; display:flex; align-items:center; justify-content:center; }
+  .cat .art svg { width:64px; height:60px; }
+  .cat .info { flex:1; min-width:0; }
+  .cat .top { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .cat .cn { font-weight:900; font-size:15px; }
+  .cat .cp { font-size:11.5px; font-weight:800; color:var(--gold-soft);
              background:rgba(255,216,107,0.12); border:1px solid rgba(255,216,107,0.3); padding:2px 8px; border-radius:999px; }
-  .cat .cd { font-size:11.5px; color:var(--dim); line-height:1.3; }
+  .cat .top .cmd { font-size:11px; }
+  .cat .cdesc { font-size:12.5px; color:var(--dim); line-height:1.42; margin-top:4px; }
 
-  /* Pet followers roster */
-  .pets { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-  .pet { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 6px 12px;
-         text-align:center; display:flex; flex-direction:column; align-items:center; gap:6px; }
-  .pet img { width:62px; height:78px; object-fit:contain; filter:drop-shadow(0 4px 7px rgba(0,0,0,0.5)); }
-  .pet .pn { font-weight:900; font-size:14px; }
-  .pet .pn .pel { font-size:13px; }
-  .pet .pe { font-size:11.5px; color:var(--dim); line-height:1.3; }
-  .shop-note { margin:9px 2px 0; color:var(--dim); font-size:12.5px; line-height:1.45; }
+  /* Pet Pokédex: one entry at a time with prev/next + dots */
+  .dex { display:flex; align-items:stretch; gap:8px; }
+  .dex-nav { flex:0 0 42px; border:1px solid var(--line); background:var(--panel); color:var(--gold);
+             font-size:26px; font-weight:900; border-radius:12px; cursor:pointer; line-height:1; transition:background .15s; }
+  .dex-nav:hover { background:#1b2440; }
+  .dex-card { flex:1; min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:16px;
+              padding:18px; display:flex; gap:16px; align-items:center; }
+  .dex-stage { flex:0 0 118px; height:138px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+               background:radial-gradient(circle at 50% 42%, var(--dex-glow,rgba(255,255,255,.12)), transparent 70%); }
+  .dex-stage img { width:94px; height:118px; object-fit:contain; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.55)); }
+  .dex-info { flex:1; min-width:0; }
+  .dex-no { font-size:12px; font-weight:800; color:var(--dim); letter-spacing:0.1em; }
+  .dex-name { font-size:23px; font-weight:900; margin:1px 0 7px; display:flex; align-items:center; gap:8px; }
+  .dex-chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+  .dex-chip { font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px;
+              border:1px solid var(--line); background:rgba(255,255,255,0.04); }
+  .dex-desc { font-size:13.5px; color:var(--dim); line-height:1.5; }
+  .dex-card.swap .dex-stage, .dex-card.swap .dex-info { animation:dexIn .28s ease; }
+  @keyframes dexIn { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  .dex-dots { display:flex; justify-content:center; gap:8px; margin-top:12px; }
+  .dex-dot { width:9px; height:9px; border-radius:50%; background:var(--line); cursor:pointer; transition:transform .15s,background .15s; }
+  .dex-dot.active { background:var(--gold); transform:scale(1.25); }
+
+  .shop-note { margin:11px 2px 0; color:var(--dim); font-size:12.5px; line-height:1.45; }
   .shop-note b { color:var(--gold-soft); }
-  @media (max-width:460px){ .pets{grid-template-columns:1fr 1fr;} }
+  @media (max-width:460px){
+    .dex-card{ flex-direction:column; text-align:center; }
+    .dex-info{ text-align:center; }
+    .dex-chips,.dex-name{ justify-content:center; }
+  }
 
   footer { text-align:center; color:var(--dim); font-size:12px; margin:34px 0 50px; }
 </style>
@@ -90,6 +111,17 @@
   </linearGradient>
   <linearGradient id="wg-flame" x1="0" y1="0" x2="0.3" y2="1">
     <stop offset="0" stop-color="#ffe9a8"/><stop offset="0.5" stop-color="#ff7a2e"/><stop offset="1" stop-color="#d8324b"/>
+  </linearGradient>
+  <!-- Potion flask: one shared body shape, three liquid gradients. -->
+  <clipPath id="potclip"><path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z"/></clipPath>
+  <linearGradient id="pgrad-red" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ff8a94"/><stop offset="1" stop-color="#c81e3a"/>
+  </linearGradient>
+  <linearGradient id="pgrad-blue" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#7ec4ff"/><stop offset="1" stop-color="#1e5fc8"/>
+  </linearGradient>
+  <linearGradient id="pgrad-purple" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#cf8aff"/><stop offset="1" stop-color="#7a1ec8"/>
   </linearGradient>
 </defs></svg>
 <header>
@@ -147,9 +179,10 @@
             </g>
           </svg>
         </div>
-        <div class="cn">Angel</div>
-        <div class="cp">200 ❤️</div>
-        <div class="cd"><span class="cmd">!hb 1</span></div>
+        <div class="info">
+          <div class="top"><span class="cn">Angel</span><span class="cp">200 ❤️</span><span class="cmd">!hb 1</span></div>
+          <div class="cdesc">Soft white-and-gold feathered wings haloed in a warm glow. The classic, clean flex — pure and angelic.</div>
+        </div>
       </div>
       <div class="cat">
         <div class="art">
@@ -166,9 +199,10 @@
             </g>
           </svg>
         </div>
-        <div class="cn">Iridescent</div>
-        <div class="cp">1000 ❤️</div>
-        <div class="cd"><span class="cmd">!hb 2</span></div>
+        <div class="info">
+          <div class="top"><span class="cn">Iridescent</span><span class="cp">1000 ❤️</span><span class="cmd">!hb 2</span></div>
+          <div class="cdesc">Aqua-to-violet-to-pink wings that shimmer and shift as your hero moves. The premium top-tier stunner.</div>
+        </div>
       </div>
       <div class="cat">
         <div class="art">
@@ -185,64 +219,141 @@
             </g>
           </svg>
         </div>
-        <div class="cn">Flame</div>
-        <div class="cp">500 ❤️</div>
-        <div class="cd"><span class="cmd">!hb 3</span></div>
+        <div class="info">
+          <div class="top"><span class="cn">Flame</span><span class="cp">500 ❤️</span><span class="cmd">!hb 3</span></div>
+          <div class="cdesc">Blazing ember wings trailing orange heat and a fiery edge. For the bold who want to make an entrance.</div>
+        </div>
       </div>
     </div>
 
     <div class="shop-sub"><span>🧪 Potions</span><span class="cmd">!sb</span><span class="pay">spend 💰 gold</span></div>
     <div class="catalog">
       <div class="cat">
-        <div class="art"><span class="pot">🔴</span></div>
-        <div class="cn">Red</div>
-        <div class="cp">15 g</div>
-        <div class="cd"><span class="cmd">!sb red</span> · heal 50%</div>
+        <div class="art">
+          <svg viewBox="0 0 48 64">
+            <rect x="18" y="2" width="12" height="6" rx="1.5" fill="#b9824a"/>
+            <rect x="19.5" y="6" width="9" height="4" fill="#8a5e34"/>
+            <g clip-path="url(#potclip)">
+              <rect x="8" y="33" width="32" height="31" fill="url(#pgrad-red)"/>
+              <ellipse cx="24" cy="33" rx="16" ry="2.6" fill="#ff8a94" opacity="0.85"/>
+              <circle cx="20" cy="45" r="1.6" fill="#fff" opacity="0.5"/>
+              <circle cx="27" cy="51" r="1.2" fill="#fff" opacity="0.45"/>
+              <circle cx="23" cy="57" r="0.9" fill="#fff" opacity="0.4"/>
+            </g>
+            <path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z" fill="rgba(255,255,255,0.05)" stroke="#dfeaff" stroke-width="1.4" stroke-linejoin="round"/>
+            <rect x="15" y="16.5" width="18" height="4.5" rx="2.2" fill="#dfeaff"/>
+            <path d="M19.5,30 q-3.5,6 -1.5,12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="info">
+          <div class="top"><span class="cn">Red Potion</span><span class="cp">15 g</span><span class="cmd">!sb red</span></div>
+          <div class="cdesc">Cheap and reliable — auto-drinks to heal <b>50% HP</b> the instant a hit would drop you, plus a getaway speed burst.</div>
+        </div>
       </div>
       <div class="cat">
-        <div class="art"><span class="pot">🔵</span></div>
-        <div class="cn">Blue</div>
-        <div class="cp">25 g</div>
-        <div class="cd"><span class="cmd">!sb blue</span> · heal 80%</div>
+        <div class="art">
+          <svg viewBox="0 0 48 64">
+            <rect x="18" y="2" width="12" height="6" rx="1.5" fill="#b9824a"/>
+            <rect x="19.5" y="6" width="9" height="4" fill="#8a5e34"/>
+            <g clip-path="url(#potclip)">
+              <rect x="8" y="33" width="32" height="31" fill="url(#pgrad-blue)"/>
+              <ellipse cx="24" cy="33" rx="16" ry="2.6" fill="#7ec4ff" opacity="0.85"/>
+              <circle cx="20" cy="45" r="1.6" fill="#fff" opacity="0.5"/>
+              <circle cx="27" cy="51" r="1.2" fill="#fff" opacity="0.45"/>
+              <circle cx="23" cy="57" r="0.9" fill="#fff" opacity="0.4"/>
+            </g>
+            <path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z" fill="rgba(255,255,255,0.05)" stroke="#dfeaff" stroke-width="1.4" stroke-linejoin="round"/>
+            <rect x="15" y="16.5" width="18" height="4.5" rx="2.2" fill="#dfeaff"/>
+            <path d="M19.5,30 q-3.5,6 -1.5,12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="info">
+          <div class="top"><span class="cn">Blue Potion</span><span class="cp">25 g</span><span class="cmd">!sb blue</span></div>
+          <div class="cdesc">The mid-tier lifesaver — restores <b>80% HP</b> on a killing blow and kicks in a longer speed burst to flee the fight.</div>
+        </div>
       </div>
       <div class="cat">
-        <div class="art"><span class="pot">🟣</span></div>
-        <div class="cn">Purple</div>
-        <div class="cp">40 g</div>
-        <div class="cd"><span class="cmd">!sb purple</span> · full + XP</div>
+        <div class="art">
+          <svg viewBox="0 0 48 64">
+            <rect x="18" y="2" width="12" height="6" rx="1.5" fill="#b9824a"/>
+            <rect x="19.5" y="6" width="9" height="4" fill="#8a5e34"/>
+            <g clip-path="url(#potclip)">
+              <rect x="8" y="33" width="32" height="31" fill="url(#pgrad-purple)"/>
+              <ellipse cx="24" cy="33" rx="16" ry="2.6" fill="#cf8aff" opacity="0.85"/>
+              <circle cx="20" cy="45" r="1.6" fill="#fff" opacity="0.5"/>
+              <circle cx="27" cy="51" r="1.2" fill="#fff" opacity="0.45"/>
+              <circle cx="23" cy="57" r="0.9" fill="#fff" opacity="0.4"/>
+            </g>
+            <path d="M16,20 h16 v6 a16,16 0 1 1 -16,0 z" fill="rgba(255,255,255,0.05)" stroke="#dfeaff" stroke-width="1.4" stroke-linejoin="round"/>
+            <rect x="15" y="16.5" width="18" height="4.5" rx="2.2" fill="#dfeaff"/>
+            <path d="M19.5,30 q-3.5,6 -1.5,12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="info">
+          <div class="top"><span class="cn">Purple Potion</span><span class="cp">40 g</span><span class="cmd">!sb purple</span></div>
+          <div class="cdesc">The premium brew — a <b>full heal</b> plus a <b>+30% XP surge</b> and speed boost. The survivor's pick when it matters most.</div>
+        </div>
       </div>
     </div>
+    <p class="shop-note">💡 Potions <b>auto-drink to save you</b> from a killing blow — carry up to <b>5 of one color</b> (<span class="cmd">!sb purple 3</span> buys an amount).</p>
   </section>
 
   <section class="shop">
-    <div class="feat-title">Pet Followers</div>
-    <div class="shop-sub"><span>🐾 The Roster</span><span class="pay">a critter that trails your hero</span></div>
-    <div class="pets">
-      <div class="pet">
-        <img src="sprites/Pets/emberling.svg" alt="Emberling" />
-        <div class="pn"><span class="pel">🔥</span> Emberling</div>
-        <div class="pe">Fire lizard with a flickering flame crest.</div>
-      </div>
-      <div class="pet">
-        <img src="sprites/Pets/dewling.svg" alt="Dewling" />
-        <div class="pn"><span class="pel">💧</span> Dewling</div>
-        <div class="pe">Water sprite under a squid-hood hat.</div>
-      </div>
-      <div class="pet">
-        <img src="sprites/Pets/pineling.svg" alt="Pineling" />
-        <div class="pn"><span class="pel">🌲</span> Pineling</div>
-        <div class="pe">Little fir-tree critter with leafy arms.</div>
-      </div>
-      <div class="pet">
-        <img src="sprites/Pets/hootling.svg" alt="Hootling" />
-        <div class="pn"><span class="pel">🦉</span> Hootling</div>
-        <div class="pe">Owl-moth companion with soft wings.</div>
-      </div>
+    <div class="feat-title">Pet Pokédex</div>
+    <div class="dex">
+      <button class="dex-nav" id="dexPrev" aria-label="Previous pet">‹</button>
+      <div class="dex-card" id="dexCard"></div>
+      <button class="dex-nav" id="dexNext" aria-label="Next pet">›</button>
     </div>
+    <div class="dex-dots" id="dexDots"></div>
     <p class="shop-note">🎲 <b>Coming soon:</b> pull a random pet from the roster with your ❤️ hearts.</p>
   </section>
 
   <footer>Come play live on TikTok · Tara! 🎮</footer>
 </main>
+
+<script>
+  // Pet Pokédex carousel: one entry at a time, prev/next + clickable dots.
+  var PETS = [
+    { no:"001", name:"Emberling", emoji:"🔥", sprite:"sprites/Pets/emberling.svg",
+      glow:"rgba(255,120,40,.45)", chips:["🔥 Fire","Starter"],
+      dex:"A fire-lizard companion whose crest flickers like a living candle. Loyal and toasty-warm, it leaves little ember sparks in its wake as it pads after your hero." },
+    { no:"002", name:"Dewling", emoji:"💧", sprite:"sprites/Pets/dewling.svg",
+      glow:"rgba(80,170,255,.45)", chips:["💧 Water","Curious"],
+      dex:"A shy water-sprite hiding beneath a squid-hood mantle worn like a tall hat. It bobs along on a cushion of cool mist and blinks up at anyone who comes too close." },
+    { no:"003", name:"Pineling", emoji:"🌲", sprite:"sprites/Pets/pineling.svg",
+      glow:"rgba(90,200,110,.45)", chips:["🌲 Grass","Sturdy"],
+      dex:"A pint-sized fir-tree critter with a layered pine crown and stubby wooden feet. Calm and rooted, it smells faintly of forest and never seems to tire on the trail." },
+    { no:"004", name:"Hootling", emoji:"🦉", sprite:"sprites/Pets/hootling.svg",
+      glow:"rgba(200,170,255,.45)", chips:["🌙 Air","Night Owl"],
+      dex:"An owl-moth companion with soft, silent wings and big watchful eyes. It glides just behind your hero, keeping a quiet lookout — most lively once the arena turns to night." },
+  ];
+  var dexI = 0;
+  var dexCard = document.getElementById("dexCard");
+  var dexDots = document.getElementById("dexDots");
+  function renderDex() {
+    var p = PETS[dexI];
+    dexCard.style.setProperty("--dex-glow", p.glow);
+    dexCard.classList.remove("swap"); void dexCard.offsetWidth; dexCard.classList.add("swap");
+    dexCard.innerHTML =
+      '<div class="dex-stage"><img src="' + p.sprite + '" alt="' + p.name + '"></div>' +
+      '<div class="dex-info">' +
+        '<div class="dex-no">No. ' + p.no + '</div>' +
+        '<div class="dex-name">' + p.emoji + ' ' + p.name + '</div>' +
+        '<div class="dex-chips">' + p.chips.map(function(c){ return '<span class="dex-chip">' + c + '</span>'; }).join("") + '</div>' +
+        '<div class="dex-desc">' + p.dex + '</div>' +
+      '</div>';
+    dexDots.innerHTML = PETS.map(function(_, i){
+      return '<span class="dex-dot' + (i === dexI ? ' active' : '') + '" data-i="' + i + '"></span>';
+    }).join("");
+  }
+  function dexGo(n) { dexI = (n + PETS.length) % PETS.length; renderDex(); }
+  document.getElementById("dexPrev").addEventListener("click", function(){ dexGo(dexI - 1); });
+  document.getElementById("dexNext").addEventListener("click", function(){ dexGo(dexI + 1); });
+  dexDots.addEventListener("click", function(e){
+    var d = e.target.closest(".dex-dot"); if (d) dexGo(parseInt(d.dataset.i, 10));
+  });
+  renderDex();
+</script>
 </body>
 </html>
