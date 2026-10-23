@@ -30,6 +30,7 @@
   .tab.active { color:var(--bg); border-color:transparent; }
   .tab.level.active{ background:var(--gold); } .tab.ore.active{ background:#e2a76a; }
   .tab.gold.active{ background:#ffe9a8; } .tab.hearts.active{ background:#ff8aa0; }
+  .tab.diamonds.active{ background:#9fe8ff; }
 
   .search { width:100%; padding:11px 14px; border-radius:12px; border:1px solid var(--line); background:var(--panel);
             color:var(--txt); font-size:14px; margin-bottom:16px; }
@@ -70,6 +71,7 @@
     <div class="tab ore"        data-metric="ore">⛏️ Ore</div>
     <div class="tab gold"       data-metric="gold">💰 Gold</div>
     <div class="tab hearts"     data-metric="hearts">❤️ Hearts</div>
+    <div class="tab diamonds"   data-metric="diamonds">💎 Gifts</div>
   </div>
 
   <input class="search" id="search" type="text" placeholder="Search your name…" autocomplete="off"/>
@@ -95,9 +97,16 @@
 
   function render(){
     var board = document.getElementById("board");
-    var ranked = state.players.slice().sort(function(a,b){ return (b[state.metric]||0)-(a[state.metric]||0); });
+    var ranked = state.players.slice();
+    if (state.metric === "diamonds") ranked = ranked.filter(function(p){ return (p.diamonds||0) > 0; });
+    ranked.sort(function(a,b){ return (b[state.metric]||0)-(a[state.metric]||0); });
     var q = state.q.trim().toLowerCase();
-    if (!ranked.length){ board.innerHTML = '<div class="empty">No players yet — be the first!</div>'; return; }
+    if (!ranked.length){
+      board.innerHTML = '<div class="empty">' +
+        (state.metric === "diamonds" ? "No gifts yet — be the first!" : "No players yet — be the first!") +
+        '</div>';
+      return;
+    }
     board.className = "board lv-"+state.metric;
     board.innerHTML = ranked.map(function(p, i){
       var rank = i+1;
