@@ -69,7 +69,7 @@
       /* ===== Slides ===== */
       .slide {
         position: absolute; inset: 0;
-        display: flex; flex-direction: column; justify-content: center; gap: 18px;
+        display: flex; flex-direction: column; justify-content: flex-start; gap: 18px;
         padding: 92px 30px 112px;
         opacity: 0; transform: translateX(28px);
         transition: opacity 0.32s ease, transform 0.32s ease;
@@ -194,10 +194,26 @@
       .controls button:hover { background: #6dd9ff; }
       .controls button:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
       .dots { display: flex; gap: 8px; flex-wrap: wrap; max-width: 180px; justify-content: center; }
-      .dot { width: 10px; height: 10px; border-radius: 50%; background: #2d3653; cursor: pointer; transition: background 0.2s, transform 0.2s; }
-      .dot.active { background: var(--gold); transform: scale(1.3); }
+      .controls .dot { padding: 0; border: 0; box-shadow: none; flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; background: #2d3653; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+      .controls .dot.active { background: var(--gold); transform: scale(1.3); }
 
+      .slide > * { flex-shrink: 0; }
+      .controls > button { white-space: nowrap; }
       @media (max-width: 420px) {
+        .slide { padding: 84px 22px 112px; gap: 12px; }
+        .lead { font-size: 18px; }
+        .rows { gap: 10px; }
+        .row { padding: 10px 12px; gap: 10px; }
+        .row .tx { font-size: 16px; }
+        .row .ic { font-size: 24px; width: 26px; }
+        .topbar { padding: 14px; gap: 8px; }
+        .brand { font-size: 20px; }
+        .brand-icon { width: 34px; height: 34px; }
+        .site-nav { gap: 4px; }
+        .site-nav a { width: 30px; height: 30px; }
+        .controls { gap: 10px; padding-inline: 14px; }
+        .controls > button { padding: 12px 14px; }
+
         .slide h2 { font-size: 34px; }
         .crow .ck { flex-basis: 112px; }
       }
@@ -215,252 +231,108 @@
         </nav>
       </div>
 
-      <!-- 1: Welcome -->
-      <section class="slide active">
-        <div class="kicker">How to Play</div>
-        <h2>Welcome to the Arena</h2>
-        <p class="lead"><b>Chattara RPG</b> is a live arena that plays along with the chat. Your hero mines, levels up, and fights — all from the comments.</p>
-        <div class="rows">
-          <div class="row"><span class="ic">👀</span><span class="tx">Watch your hero roam the world in real time.</span></div>
-          <div class="row"><span class="ic">💬</span><span class="tx">Steer it with simple chat commands.</span></div>
-          <div class="row"><span class="ic">🏆</span><span class="tx">Climb the leaderboard. Your progress is saved.</span></div>
-        </div>
-        <p class="tip">Use <b>Prev / Next</b> below (or the ← → keys) to flip through. Tara! 🚀</p>
-      </section>
 
-      <!-- 2: How to Join -->
-      <section class="slide">
-        <div class="kicker">Step 1</div>
-        <h2>How to Join</h2>
-        <div class="rows">
-          <div class="row"><span class="ic">⌨️</span><span class="tx">Type <span class="cmd">!join</span> in chat — and you're in the arena.</span></div>
-          <div class="row"><span class="ic">✨</span><span class="tx"><b>Or just say anything</b> — any comment auto-joins you instantly.</span></div>
-          <div class="row"><span class="ic">❤️</span><span class="tx">Tap the heart, follow, or send a gift — that drops you in too.</span></div>
-          <div class="row"><span class="ic">↩️</span><span class="tx"><b>Been here before?</b> Your level, XP and ore are saved.</span></div>
-        </div>
-        <p class="tip">A spotlight + glow flashes on your character when you join, so you can find yourself on the map.</p>
-      </section>
+      <section class="slide active"><div class="kicker">Start here &mdash; 1 / 3</div><h2>Find your hero</h2>
+        <p class="lead">Play from the <b>TikTok LIVE chat</b>. This website is your guide.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx">Say hello in the live chat to join.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Look for your name and the <b>pulsing yellow ring</b> around your hero.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Tap hearts and watch your hero react. New arrivals get a moment of camera focus.</span></div></div>
+        <p class="tip">Already playing? Jump to <a href="#commands">Commands</a>. You do not need to repeat the introduction.</p></section>
 
-      <!-- 3: Warrior -->
-      <section class="slide">
-        <div class="kicker">Class 1 / 4</div>
-        <h2>⚔️ Warrior</h2>
-        <div class="hero">
-          <div class="platform"><div class="csprite" data-src="sprites/warrior.png"></div></div>
-          <div class="feat">
-            <div class="f"><span class="ic">🛡️</span><span>Tanky frontline bruiser with the <b>biggest HP pool</b>.</span></div>
-            <div class="f"><span class="ic">🎯</span><span><b>25% crit chance</b> — lands double-damage smashes.</span></div>
-          </div>
-          <div class="vs"><span class="good">Strong vs 🗡️ Rogue</span><span class="bad">Weak to 🏹 Ranger</span></div>
-        </div>
-      </section>
 
-      <!-- 4: Rogue -->
-      <section class="slide">
-        <div class="kicker">Class 2 / 4</div>
-        <h2>🗡️ Rogue</h2>
-        <div class="hero">
-          <div class="platform"><div class="csprite" data-src="sprites/rouge.png"></div></div>
-          <div class="feat">
-            <div class="f"><span class="ic">💨</span><span>Slippery duelist — <b>30% dodge</b> to slip past hits.</span></div>
-            <div class="f"><span class="ic">🩸</span><span><b>Bloodlust:</b> hits harder the lower its HP drops.</span></div>
-          </div>
-          <div class="vs"><span class="good">Strong vs 🔮 Mage</span><span class="bad">Weak to ⚔️ Warrior</span></div>
-        </div>
-      </section>
+      <section class="slide"><div class="kicker">Your first action &mdash; 2 / 3</div><h2>Type exp</h2>
+        <p class="lead">Send this one word in the <b>live chat</b>: <span class="cmd">exp</span></p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx">Your hero heads to the EXP field and fights monsters automatically.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Watch your hero earn XP and work toward the next level.</span></div></div>
+        <p class="tip">No need to type a long sentence. <span class="cmd">exp</span> and <span class="cmd">!exp</span> both work.</p></section>
 
-      <!-- 5: Mage -->
-      <section class="slide">
-        <div class="kicker">Class 3 / 4</div>
-        <h2>🔮 Mage</h2>
-        <div class="hero">
-          <div class="platform"><div class="csprite" data-src="sprites/wizard.png"></div></div>
-          <div class="feat">
-            <div class="f"><span class="ic">💥</span><span>Glass cannon — charges a spell for <b>huge burst damage</b>.</span></div>
-            <div class="f"><span class="ic">⏳</span><span>Has a cast time and the <b>lowest HP</b> — fragile but deadly.</span></div>
-          </div>
-          <div class="vs"><span class="good">Strong vs 🏹 Ranger</span><span class="bad">Weak to 🗡️ Rogue</span></div>
-        </div>
-      </section>
 
-      <!-- 6: Ranger -->
-      <section class="slide">
-        <div class="kicker">Class 4 / 4</div>
-        <h2>🏹 Ranger</h2>
-        <div class="hero">
-          <div class="platform"><div class="csprite" data-src="sprites/archer.png"></div></div>
-          <div class="feat">
-            <div class="f"><span class="ic">🎯</span><span>Agile sharpshooter with the <b>longest range</b>.</span></div>
-            <div class="f"><span class="ic">🩸</span><span>Arrows cause <b>bleed</b>, and it stays nimble even when hurt.</span></div>
-          </div>
-          <div class="vs"><span class="good">Strong vs ⚔️ Warrior</span><span class="bad">Weak to 🔮 Mage</span></div>
-        </div>
-      </section>
+      <section class="slide"><div class="kicker">Find help &mdash; 3 / 3</div><h2>Type help</h2>
+        <p class="lead">Once you have tried <span class="cmd">exp</span>, send <span class="cmd">help</span> in the live chat.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx">The beginner Help menu shows a small set of useful commands.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Then follow the next quest prompt above your hero, one action at a time.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Lost your hero? Type <span class="cmd">me</span> to locate it.</span></div></div>
+        <p class="tip">Want the larger command list? Type <span class="cmd">commands</span>. You do not need to learn everything now.</p></section>
 
-      <!-- 7: Commands -->
-      <section class="slide">
-        <div class="kicker">Step 2</div>
-        <h2>Commands</h2>
-        <div class="cmds">
-          <div class="crow"><span class="ck"><span class="cmd">!mine</span></span><span class="cv">Dig ore at the mine.</span></div>
-          <div class="crow"><span class="ck"><span class="cmd">!exp</span></span><span class="cv">Hunt monsters for XP. (also <span class="cmd">!train</span> / <span class="cmd">!level</span>)</span></div>
-          <div class="crow"><span class="ck"><span class="cmd">!rest</span></span><span class="cv">Recover HP back at the inn.</span></div>
-          <div class="crow"><span class="ck"><span class="cmd">!repair</span></span><span class="cv">Fix your pickaxe. (also <span class="cmd">!fix</span>)</span></div>
-          <div class="crow"><span class="ck"><span class="cmd">!attack name</span></span><span class="cv">Challenge a player in the EXP field — or bonk a celebrity bot anywhere for fun.</span></div>
-          <div class="crow"><span class="ck"><span class="cmd">!stop</span></span><span class="cv">Chill out and go idle. (also <span class="cmd">!idle</span>)</span></div>
-        </div>
-        <p class="tip">The <b>!</b> is optional and spaces are fine — <span class="cmd">rest</span>, <span class="cmd">! rest</span> and <span class="cmd">!rest</span> all work.</p>
-      </section>
+<section id="commands" class="slide"><div class="kicker">Keep this handy</div><h2>Everyday commands</h2>
+        <p class="lead">Type one command at a time in the live chat.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">exp</span> &mdash; fight monsters for XP.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">mine</span> &mdash; head to the mine.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">rest</span> &mdash; recover at the inn.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">repair</span> &mdash; repair your pickaxe.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">help</span> &mdash; beginner help; <span class="cmd">commands</span> &mdash; more options.</span></div></div>
+        <p class="tip">Commands work with or without <b>!</b>. Use <span class="cmd">stop</span> to stop your current activity.</p></section>
 
-      <!-- Auto-pilot -->
-      <section class="slide">
-        <div class="kicker">⚙️ Good to Know</div>
-        <h2>Your Hero Auto-Pilots</h2>
-        <p class="lead">No need to babysit it — after each task it loops back to idle and waits for your next command.</p>
-        <div class="rows">
-          <div class="row"><span class="ic">💔</span><span class="tx"><b>HP hits 0?</b> It limps to the inn, <b>auto-rests</b> to full, then goes idle.</span></div>
-          <div class="row"><span class="ic">⛏️</span><span class="tx"><b>Pickaxe breaks</b> while mining? It heads to the smithy, <b>auto-repairs</b>, then goes idle.</span></div>
-          <div class="row"><span class="ic">🔁</span><span class="tx">Idle again? Just send another command (<span class="cmd">!mine</span>, <span class="cmd">!exp</span>…) to keep it going.</span></div>
-          <div class="row"><span class="ic">😴</span><span class="tx"><b>Idle &amp; quiet for 3 min?</b> Your hero leaves the arena — but your progress saves, so just chat to come back.</span></div>
-        </div>
-      </section>
 
-      <!-- The Shop -->
-      <section class="slide">
-        <div class="kicker">💰 The Merchant Shop</div>
-        <h2>Trade &amp; Potions</h2>
-        <div class="rows">
-          <div class="row"><span class="ic">💰</span><span class="tx"><b><span class="cmd">!ss</span> = Shop&nbsp;Sell.</b> <span class="cmd">!ss all</span> (or <span class="cmd">!ss 50</span>) sells your ore for <b>gold</b> at the live price — 📈 sell on a <b>SURGE!</b></span></div>
-          <div class="row"><span class="ic">🧪</span><span class="tx"><b><span class="cmd">!sb</span> = Shop&nbsp;Buy.</b> <span class="cmd">!sb red</span> / <span class="cmd">blue</span> / <span class="cmd">purple</span> buys potions — carry <b>5 of one color</b> (<span class="cmd">!sb purple 3</span> for an amount).</span></div>
-          <div class="row"><span class="ic">🛟</span><span class="tx">Potions <b>auto-drink to save you</b> from a killing blow: 🔴 heal 50% · 🔵 80% · 🟣 full + an XP surge — plus a speed burst to escape!</span></div>
-        </div>
-        <p class="tip">Mine ⛏️ → <span class="cmd">!ss</span> for gold → <span class="cmd">!sb</span> for survival potions.</p>
-      </section>
+      <section class="slide"><div class="kicker">Your next step</div><h2>Follow your quest</h2>
+        <p class="lead">The prompt above your hero tells you what to try next.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">quest</span> &mdash; show or hide your current hero quest.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">dq</span> &mdash; check daily quests.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">inventory</span> &mdash; check your items.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">gold</span> &mdash; check your wallet.</span></div></div>
+        <p class="tip">Returning players can carry on from their saved progress. Follow the current prompt instead of starting over.</p></section>
 
-      <!-- Hearts & the Heart Shop -->
-      <section class="slide">
-        <div class="kicker">❤️ Hearts</div>
-        <h2>Tap to Earn — Then Flex</h2>
-        <div class="rows">
-          <div class="row"><span class="ic">❤️</span><span class="tx"><b>Every tap counts.</b> Your hearts (likes) add up forever and rank you on the <b>❤️ Top Hearts</b> board — and each tap gives your hero a quick <b>speed burst</b>.</span></div>
-          <div class="row"><span class="ic">🪽</span><span class="tx"><b><span class="cmd">!hb</span> = Heart&nbsp;Buy.</b> Spend hearts on <b>flex wings</b>: <span class="cmd">!hb 1</span> Angel (5,000❤️) · <span class="cmd">!hb 2</span> Iridescent (20,000❤️) · <span class="cmd">!hb 3</span> Flame (50,000❤️).</span></div>
-          <div class="row"><span class="ic">👑</span><span class="tx">Spending <b>never lowers your total</b> — your lifetime hearts (and your rank) stay put, and your wings are <b>yours to keep</b>.</span></div>
-        </div>
-        <p class="tip">Two currencies: 💰 <b>gold</b> from mining · ❤️ <b>hearts</b> from tapping. Tap → <span class="cmd">!hb</span> → wear your wings!</p>
-      </section>
 
-      <!-- 8: PvP -->
-      <section class="slide">
-        <div class="kicker">⚔️ Player vs Player</div>
-        <h2>Duel Other Viewers</h2>
-        <div class="rows">
-          <div class="row"><span class="ic">🤺</span><span class="tx">Type <span class="cmd">!attack name</span> to challenge another player.</span></div>
-          <div class="row"><span class="ic">📍</span><span class="tx">Duels only happen in the <b>EXP field</b> — the rest of the map is safe.</span></div>
-          <div class="row"><span class="ic">🔁</span><span class="tx">Pick your matchup: <b>2× damage</b> vs the class you counter.</span></div>
-          <div class="row"><span class="ic">🏳️</span><span class="tx">They <b>fight back automatically</b>. Last one standing wins — the loser wakes at the inn, the winner gets <b>+5 XP</b>.</span></div>
-          <div class="row"><span class="ic">🟥</span><span class="tx">Strike first and you're a red-named <b>PKer</b> until you're KO'd.</span></div>
-        </div>
-        <p class="tip">For fun: you can <b>attack the celebrity bots anywhere</b> — they swing back, but they can't KO you. 😈</p>
-      </section>
+      <section class="slide"><div class="kicker">Your hero</div><h2>Four classes</h2>
+        <p class="lead">Warrior, Rogue, Mage and Ranger each have their own fighting style.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx">Warrior and Rogue fight up close.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Ranger and Mage fight from range.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">job</span> &mdash; open the class menu and check the available choices.</span></div></div>
+        <p class="tip">You can start playing with your current class. Equipment and skills matter as you progress.</p></section>
 
-      <!-- 9: Daytime monsters -->
-      <section class="slide">
-        <div class="kicker">☀️ By Day</div>
-        <h2>Daytime Foes</h2>
-        <p class="lead muted">Hunt these for XP — type <span class="cmd">!exp</span> to charge in.</p>
-        <div class="mons">
-          <div class="mon">
-            <img src="sprites/slime-green.svg" alt="Slime" />
-            <div class="mn">Slime</div>
-            <div class="md">Common XP fodder. They come in green, blue &amp; red.</div>
-          </div>
-          <div class="mon">
-            <img src="sprites/treant.svg" alt="Treant" />
-            <div class="mn">Treant</div>
-            <div class="md">A tougher walking tree — more XP for the bold.</div>
-          </div>
-        </div>
-      </section>
 
-      <!-- 9: Night monsters -->
-      <section class="slide">
-        <div class="kicker">🌙 After Dark</div>
-        <h2>Night Foes</h2>
-        <p class="lead muted">When night falls, the world swaps to spookier monsters.</p>
-        <div class="mons">
-          <div class="mon">
-            <img src="sprites/ghost.svg" alt="Ghost" />
-            <div class="mn">Ghost</div>
-            <div class="md">Drifting night spirit that replaces the slimes.</div>
-          </div>
-          <div class="mon">
-            <img src="sprites/beholder.svg" alt="Beholder" />
-            <div class="mn">Beholder</div>
-            <div class="md">A floating eye-beast — the night's heavy hitter.</div>
-          </div>
-        </div>
-      </section>
+      <section class="slide"><div class="kicker">Trade &amp; recovery</div><h2>Gold and potions</h2>
+        <p class="lead">Mine ore, sell it, and prepare for your next fight.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">sore</span> &mdash; sell ore for gold.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">sb red</span> &mdash; buy red potions; check the in-game menu for current prices.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">pots</span> &mdash; drink a carried potion when healing is needed.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">rest</span> &mdash; return to the inn to recover.</span></div></div>
+        <p class="tip">Use the prices and purchase instructions shown in the game before spending.</p></section>
 
-      <!-- 10: Your Goal -->
-      <section class="slide">
-        <div class="kicker">🏆 Your Goal</div>
-        <h2>What You're Playing For</h2>
-        <div class="rows">
-          <div class="row"><span class="ic">⭐</span><span class="tx">Level up by hunting — the cap is <b>Level 50</b>.</span></div>
-          <div class="row"><span class="ic">🏅</span><span class="tx">Four boards to top: <b>🏆 Top Level</b>, <b>⛏️ Top Ore</b>, <b>💰 Top Gold</b> &amp; <b>❤️ Top Hearts</b>.</span></div>
-          <div class="row"><span class="ic">⛏️</span><span class="tx">Ore isn't just score — it pays for <b>fast pickaxe repairs</b>.</span></div>
-          <div class="row"><span class="ic">💬</span><span class="tx">Keep chatting! Go quiet for <b>3 minutes</b> and you'll leave the arena.</span></div>
-        </div>
-        <div class="soon"><span class="badge">New</span><span>🪙 <span class="cmd">!ss</span> ore for <b>gold</b>, then <span class="cmd">!sb</span> for potions!</span></div>
-      </section>
 
-      <!-- 11: Events & Perks -->
-      <section class="slide">
-        <div class="kicker">Events &amp; Perks</div>
-        <h2>Make It Count</h2>
-        <div class="mons">
-          <div class="mon">
-            <img src="sprites/boss-treant.svg" alt="Ancient Treant" />
-            <div class="mn">Ancient Treant</div>
-            <div class="md">Boss every few minutes — type <span class="cmd">!exp</span> to join the fight!</div>
-          </div>
-          <div class="mon">
-            <img src="sprites/witch.svg" alt="Witch" />
-            <div class="mn">The Witch</div>
-            <div class="md">Each visit she curses one viewer who's gone quiet. Keep tapping ❤️ to stay safe!</div>
-          </div>
-        </div>
-        <p class="tip">There's always something happening in the arena. 🌟</p>
-      </section>
+      <section class="slide"><div class="kicker">Hearts &amp; style</div><h2>Make your hero yours</h2>
+        <p class="lead">Heart taps contribute to your total and the community heart meter.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">shop</span> &mdash; see the current heart shop and prices.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">hb number</span> &mdash; buy the item with that shop number. Replace <b>number</b> with the number shown.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">wardrobe</span> &mdash; open your wardrobe.</span></div></div>
+        <p class="tip">Spending hearts does not reduce your lifetime heart leaderboard total. Follow the community meter to see the next reward.</p></section>
 
-      <!-- Community Hearts -->
-      <section class="slide">
-        <div class="kicker">❤️ Community Hearts</div>
-        <h2>Tap to Power Up Everyone</h2>
-        <p class="lead">Every ❤️ you tap fills the team <b>Heart Meter</b>. Hit a milestone and the <b>whole arena</b> gets a reward:</p>
-        <div class="rows">
-          <div class="row"><span class="ic">⭐</span><span class="tx"><b>100 ❤️ — XP Rain:</b> bonus XP showers on every player.</span></div>
-          <div class="row"><span class="ic">⚡</span><span class="tx"><b>250 ❤️ — Speed Frenzy:</b> the whole arena zooms with a speed boost.</span></div>
-          <div class="row"><span class="ic">🌿</span><span class="tx"><b>500 ❤️ — Healing Rain:</b> everyone heals to full, plus bonus ore.</span></div>
-        </div>
-        <p class="tip">Your taps also give <b>your</b> hero a personal speed burst — and keep you safe from the Witch. So keep tapping! ❤️</p>
-      </section>
 
-      <!-- 13: Coming Soon -->
-      <section class="slide">
-        <div class="kicker">🔮 What's Next</div>
-        <h2>Coming Soon</h2>
-        <p class="lead">The arena keeps leveling up — here's what's on the way:</p>
-        <div class="soon"><span class="badge">Soon</span><span>🛒 <b>More shop wares</b> — new potions &amp; upgrades to spend your gold on.</span></div>
-        <div class="rows">
-          <div class="row"><span class="ic">✨</span><span class="tx">…and more features dropping all the time.</span></div>
-        </div>
-        <p class="tip"><b>Follow</b> so you don't miss the drop — then type <span class="cmd">!join</span> and play. Tara! 🎮</p>
-      </section>
+      <section class="slide"><div class="kicker">Player vs player</div><h2>Try ranked duels</h2>
+        <p class="lead">Ready for a different challenge? Open the PvP menu.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">pvp</span> &mdash; same-class ranked opponents.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">pvpall</span> &mdash; ranked opponents across classes.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">f1</span>, <span class="cmd">f2</span> or <span class="cmd">f3</span> &mdash; choose the corresponding opponent shown.</span></div></div>
+        <p class="tip">Check the matchup and follow the fight prompts. Ranked results affect your rating.</p></section>
+
+
+      <section class="slide"><div class="kicker">Beyond level 50</div><h2>Ascend</h2>
+        <p class="lead">Reach <b>level 50</b>, then complete the ascension requirements to unlock progression up to <b>level 150</b>.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">ascend</span> &mdash; see your requirements and progress.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Follow the ascension quest, including its Treant Fruit requirement.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">After ascending, keep building your hero through higher-level challenges.</span></div></div>
+        <p class="tip">Opening the menu does not instantly ascend your hero. Complete the requirements shown in the game.</p></section>
+
+
+      <section class="slide"><div class="kicker">Advanced adventures</div><h2>Endless Tower</h2>
+        <p class="lead">Ascended heroes can take on the tower.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">et</span> &mdash; begin or continue your tower run.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx"><span class="cmd">et3</span> &mdash; farm floor 3 once it is available to you.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Check the entry prompt for pass requirements and available entries.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">During farming, tap hearts and follow the dice and wave prompts.</span></div></div>
+        <p class="tip">Start with the floor you can survive. The game shows current rewards, entry costs and wave effects.</p></section>
+
+
+      <section class="slide"><div class="kicker">Ready to play?</div><h2>Back to the live</h2>
+        <p class="lead">You only need one first action: <span class="cmd">exp</span>.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx">Open the TikTok LIVE and say hello.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Send <span class="cmd">exp</span> and watch your hero fight.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx">Send <span class="cmd">help</span>, then follow your next quest.</span></div></div>
+        <p class="tip">Updated 15 November 2026 &mdash; <a href="index.html">Home</a> &mdash; <a href="leaderboards.html">Leaderboards</a></p></section>
 
       <div class="controls">
         <button id="btnPrev">‹ Prev</button>
-        <div class="dots" id="dots"></div>
+        <div class="dots" id="dots" aria-label="Guide pages"></div>
         <button id="btnNext">Next ›</button>
       </div>
     </div>
@@ -490,10 +362,13 @@
         var dotsWrap = document.getElementById("dots");
         var btnPrev = document.getElementById("btnPrev");
         var btnNext = document.getElementById("btnNext");
-        var i = 0;
+        var i = location.hash === '#commands' ? 3 : 0;
+        window.addEventListener('hashchange', function () { if (location.hash === '#commands') go(3); });
 
         slides.forEach(function (_, idx) {
-          var d = document.createElement("div");
+          var d = document.createElement("button");
+          d.type = "button";
+          d.setAttribute("aria-label", "Go to guide page " + (idx + 1));
           d.className = "dot" + (idx === 0 ? " active" : "");
           d.addEventListener("click", function () { go(idx); });
           dotsWrap.appendChild(d);
@@ -503,6 +378,8 @@
         function render() {
           slides.forEach(function (s, idx) {
             s.classList.toggle("active", idx === i);
+            s.inert = idx !== i;
+            s.setAttribute("aria-hidden", String(idx !== i));
             s.classList.toggle("leaving", idx < i);
           });
           dots.forEach(function (d, idx) { d.classList.toggle("active", idx === i); });
