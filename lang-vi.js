@@ -33,6 +33,7 @@ I18N.register("vi", {
   "hp.3.r1": "Bảng trợ giúp cho người mới hiện vài lệnh hữu ích.",
   "hp.3.r2": "Rồi làm theo gợi ý nhiệm vụ phía trên nhân vật, từng bước một.",
   "hp.3.r3": "Không thấy nhân vật? Gõ <span class=\"cmd\">me</span> để tìm.",
+  "hp.3.r4": "Gõ <span class=\"cmd\">lang vi</span> trong chat để phần trợ giúp và nhiệm vụ trong game hiện bằng tiếng Việt.",
   "hp.3.tip": "Muốn danh sách lệnh đầy đủ? Gõ <span class=\"cmd\">commands</span>. Không cần học hết ngay bây giờ.",
 
   "hp.4.k": "Ghi nhớ phần này",

@@ -33,6 +33,7 @@ I18N.register("es", {
   "hp.3.r1": "El menú de ayuda para principiantes muestra unos pocos comandos útiles.",
   "hp.3.r2": "Después sigue el aviso de misión sobre tu héroe, una acción a la vez.",
   "hp.3.r3": "¿Perdiste a tu héroe? Escribe <span class=\"cmd\">me</span> para localizarlo.",
+  "hp.3.r4": "Escribe <span class=\"cmd\">lang es</span> en el chat y el juego te dará la ayuda y las misiones en español.",
   "hp.3.tip": "¿Quieres la lista completa? Escribe <span class=\"cmd\">commands</span>. No necesitas aprenderlo todo ahora.",
 
   "hp.4.k": "Ten esto a mano",

@@ -33,6 +33,7 @@ I18N.register("id", {
   "hp.3.r1": "Menu bantuan pemula menampilkan beberapa perintah penting.",
   "hp.3.r2": "Lalu ikuti petunjuk misi di atas heromu, satu langkah sekaligus.",
   "hp.3.r3": "Kehilangan heromu? Ketik <span class=\"cmd\">me</span> untuk menemukannya.",
+  "hp.3.r4": "Ketik <span class=\"cmd\">lang id</span> di chat, lalu bantuan dan misi dalam game ikut berbahasa Indonesia.",
   "hp.3.tip": "Mau daftar perintah lengkap? Ketik <span class=\"cmd\">commands</span>. Tidak perlu menghafal semuanya sekarang.",
 
   "hp.4.k": "Simpan ini",
