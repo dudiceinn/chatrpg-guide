@@ -100,9 +100,10 @@
 
 <div class="frame" id="frame">
   <div class="bar">
-    <div class="brand"><b>CHATTARA</b> RPG · Shop</div>
-    <button class="pp" id="pp" aria-label="Play / pause">❚❚</button>
+    <div class="brand"><b>CHATTARA</b> RPG · <span data-t="nav.shop">Shop</span></div>
+    <button class="pp" id="pp" aria-label="Play / pause" data-t-aria="sc.playpause">❚❚</button>
     <div class="count" id="count">1 / 10</div>
+    <span id="langPick"></span>
   </div>
   <div class="prog" id="prog"><i></i></div>
 
@@ -110,14 +111,15 @@
     <div class="tap l" id="tapL"></div>
     <div class="tap r" id="tapR"></div>
     <div class="slide" id="slide"></div>
-    <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
-    <button class="arrow next" id="next" aria-label="Next">›</button>
+    <button class="arrow prev" id="prev" aria-label="Previous" data-t-aria="sc.prev">‹</button>
+    <button class="arrow next" id="next" aria-label="Next" data-t-aria="sc.next">›</button>
   </div>
 
   <div class="dots" id="dots"></div>
   <div class="home"><a href="index.html">← chattara rpg</a></div>
 </div>
 
+<script src="lang.js"></script>
 <script>
   // ---- art builders (mirror the in-game sprites) ----
   var WP = "M50,54 C53,30 67,16 87,15 Q82,23 84,27 Q76,28 78,33 Q69,35 71,40 Q62,42 63,47 Q56,50 50,54 Z";
@@ -142,38 +144,41 @@
   function pet(src) { return '<img src="' + src + '" alt="">'; }
 
   // ---- slides: wings, potions, pets ----
+  // Item names, prices and command tokens stay literal in every language;
+  // only the kickers, tags and flavour text are translated.
+  function t(key, english) { return window.I18N ? window.I18N.t(key, english) : english; }
   var SLIDES = [
-    { kicker:"Flex Wing · !hb 1", art:wing("wg-angel","#e8c46a","rgba(255,220,120,.9)"), accent:"#ffd86b", glow:"rgba(255,216,107,.45)",
-      title:"Angel Wings", price:"5,000 ❤️", cmd:"!hb 1",
+    { kickerKey:"sc.k.wing1", kicker:"Flex Wing · !hb 1", art:wing("wg-angel","#e8c46a","rgba(255,220,120,.9)"), accent:"#ffd86b", glow:"rgba(255,216,107,.45)",
+      title:"Angel Wings", price:"5,000 ❤️", cmd:"!hb 1", descKey:"sc.d.wing1",
       desc:"Soft white-and-gold feathered wings haloed in a warm glow. The classic, clean flex — pure and angelic." },
-    { kicker:"Flex Wing · !hb 2", art:wing("wg-iri","#9b7fe0","rgba(180,140,255,.9)"), accent:"#b18cff", glow:"rgba(177,140,255,.45)",
-      title:"Iridescent Wings", price:"20,000 ❤️", cmd:"!hb 2",
+    { kickerKey:"sc.k.wing2", kicker:"Flex Wing · !hb 2", art:wing("wg-iri","#9b7fe0","rgba(180,140,255,.9)"), accent:"#b18cff", glow:"rgba(177,140,255,.45)",
+      title:"Iridescent Wings", price:"20,000 ❤️", cmd:"!hb 2", descKey:"sc.d.wing2",
       desc:"Aqua-to-violet-to-pink wings that shimmer and shift as your hero moves. The premium top-tier stunner." },
-    { kicker:"Flex Wing · !hb 3", art:wing("wg-flame","#b23a1e","rgba(255,120,40,.95)"), accent:"#ff7a2e", glow:"rgba(255,122,46,.45)",
-      title:"Flame Wings", price:"50,000 ❤️", cmd:"!hb 3",
+    { kickerKey:"sc.k.wing3", kicker:"Flex Wing · !hb 3", art:wing("wg-flame","#b23a1e","rgba(255,120,40,.95)"), accent:"#ff7a2e", glow:"rgba(255,122,46,.45)",
+      title:"Flame Wings", price:"50,000 ❤️", cmd:"!hb 3", descKey:"sc.d.wing3",
       desc:"Blazing ember wings trailing orange heat and a fiery edge. For the bold who want to make an entrance." },
 
-    { kicker:"Survival Potion · !sb", art:potion("pgrad-red","#ff8a94"), accent:"#ff5a6a", glow:"rgba(255,90,106,.4)",
-      title:"Red Potion", price:"15 g", cmd:"!sb red",
+    { kickerKey:"sc.k.pot", kicker:"Survival Potion · !sb", art:potion("pgrad-red","#ff8a94"), accent:"#ff5a6a", glow:"rgba(255,90,106,.4)",
+      title:"Red Potion", price:"15 g", cmd:"!sb red", descKey:"sc.d.pot1",
       desc:"Cheap and reliable — auto-drinks to heal <b>50% HP</b> the instant a hit would drop you, plus a getaway speed burst." },
-    { kicker:"Survival Potion · !sb", art:potion("pgrad-blue","#7ec4ff"), accent:"#4f9bff", glow:"rgba(79,155,255,.4)",
-      title:"Blue Potion", price:"25 g", cmd:"!sb blue",
+    { kickerKey:"sc.k.pot", kicker:"Survival Potion · !sb", art:potion("pgrad-blue","#7ec4ff"), accent:"#4f9bff", glow:"rgba(79,155,255,.4)",
+      title:"Blue Potion", price:"25 g", cmd:"!sb blue", descKey:"sc.d.pot2",
       desc:"The mid-tier lifesaver — restores <b>80% HP</b> on a killing blow and kicks in a longer speed burst to flee." },
-    { kicker:"Survival Potion · !sb", art:potion("pgrad-purple","#cf8aff"), accent:"#b14eff", glow:"rgba(177,78,255,.4)",
-      title:"Purple Potion", price:"40 g", cmd:"!sb purple",
+    { kickerKey:"sc.k.pot", kicker:"Survival Potion · !sb", art:potion("pgrad-purple","#cf8aff"), accent:"#b14eff", glow:"rgba(177,78,255,.4)",
+      title:"Purple Potion", price:"40 g", cmd:"!sb purple", descKey:"sc.d.pot3",
       desc:"The premium brew — a <b>full heal</b> plus a <b>+30% XP surge</b> and speed boost. The survivor's pick." },
 
-    { kicker:"Pet · No. 001", art:pet("sprites/Pets/emberling.svg"), accent:"#ff8a3a", glow:"rgba(255,120,40,.45)",
-      title:"Emberling", chips:["🔥 Fire","Starter"],
+    { kickerKey:"sc.k.pet", pet:"001", art:pet("sprites/Pets/emberling.svg"), accent:"#ff8a3a", glow:"rgba(255,120,40,.45)",
+      title:"Emberling", chips:[["chip.fire","🔥 Fire"],["chip.starter","Starter"]], descKey:"sc.d.pet1",
       desc:"A fire-lizard companion whose crest flickers like a living candle. Loyal and toasty-warm, it leaves little ember sparks as it pads after your hero." },
-    { kicker:"Pet · No. 002", art:pet("sprites/Pets/dewling.svg"), accent:"#56b0ff", glow:"rgba(80,170,255,.45)",
-      title:"Dewling", chips:["💧 Water","Curious"],
+    { kickerKey:"sc.k.pet", pet:"002", art:pet("sprites/Pets/dewling.svg"), accent:"#56b0ff", glow:"rgba(80,170,255,.45)",
+      title:"Dewling", chips:[["chip.water","💧 Water"],["chip.curious","Curious"]], descKey:"sc.d.pet2",
       desc:"A shy water-sprite hiding beneath a squid-hood mantle worn like a tall hat. It bobs along on a cushion of cool mist." },
-    { kicker:"Pet · No. 003", art:pet("sprites/Pets/pineling.svg"), accent:"#5ec86e", glow:"rgba(90,200,110,.45)",
-      title:"Pineling", chips:["🌲 Grass","Sturdy"],
+    { kickerKey:"sc.k.pet", pet:"003", art:pet("sprites/Pets/pineling.svg"), accent:"#5ec86e", glow:"rgba(90,200,110,.45)",
+      title:"Pineling", chips:[["chip.grass","🌲 Grass"],["chip.sturdy","Sturdy"]], descKey:"sc.d.pet3",
       desc:"A pint-sized fir-tree critter with a layered pine crown and stubby wooden feet. Calm, rooted, and never seems to tire." },
-    { kicker:"Pet · No. 004", art:pet("sprites/Pets/hootling.svg"), accent:"#c8aaff", glow:"rgba(200,170,255,.45)",
-      title:"Hootling", chips:["🌙 Air","Night Owl"],
+    { kickerKey:"sc.k.pet", pet:"004", art:pet("sprites/Pets/hootling.svg"), accent:"#c8aaff", glow:"rgba(200,170,255,.45)",
+      title:"Hootling", chips:[["chip.air","🌙 Air"],["chip.nightowl","Night Owl"]], descKey:"sc.d.pet4",
       desc:"An owl-moth companion with soft, silent wings and big watchful eyes. Most lively once the arena turns to night." },
   ];
 
@@ -189,19 +194,22 @@
   function render() {
     var s = SLIDES[i];
     var pill = s.chips
-      ? '<div class="chips">' + s.chips.map(function(c){ return '<span class="chip">' + c + '</span>'; }).join("") + '</div>' +
-        '<div class="pills"><span class="cmd">🎲 Hearts Gacha · soon</span></div>'
+      ? '<div class="chips">' + s.chips.map(function(c){ return '<span class="chip">' + t(c[0], c[1]) + '</span>'; }).join("") + '</div>' +
+        '<div class="pills"><span class="cmd">' + t("sc.gacha", "🎲 Hearts Gacha · soon") + '</span></div>'
       : '<div class="pills"><span class="price">' + s.price + '</span><span class="cmd">' + s.cmd + '</span></div>';
+    var kicker = s.pet
+      ? t("sc.k.pet", "Pet · No. {n}").replace("{n}", s.pet)
+      : t(s.kickerKey, s.kicker);
     slide.style.setProperty("--accent", s.accent);
     slide.style.setProperty("--glow", s.glow);
     slide.classList.remove("in"); void slide.offsetWidth; slide.classList.add("in");
     slide.innerHTML =
       '<div class="art-wrap">' + s.art + '</div>' +
       '<div class="meta">' +
-        '<div class="kicker">' + s.kicker + '</div>' +
+        '<div class="kicker">' + kicker + '</div>' +
         '<div class="title">' + s.title + '</div>' +
         pill +
-        '<div class="desc">' + s.desc + '</div>' +
+        '<div class="desc">' + t(s.descKey, s.desc) + '</div>' +
       '</div>';
     countEl.textContent = (i + 1) + " / " + SLIDES.length;
     dots.forEach(function(d, n){ d.classList.toggle("active", n === i); });
@@ -244,6 +252,8 @@
 
   render();
   resetTimer();
+  // A language change redraws the current slide without disturbing autoplay.
+  if (window.I18N) window.I18N.onChange(function(){ go(i); });
 </script>
 </body>
 </html>

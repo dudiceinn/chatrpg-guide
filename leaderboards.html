@@ -56,43 +56,53 @@
 <header>
   <div class="brand"><b>CHATTARA</b> RPG</div>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="howtoplay.html">Guide</a>
-    <a href="leaderboards.html" class="active">Ranks</a>
+    <a href="index.html" data-t="nav.home">Home</a>
+    <a href="howtoplay.html" data-t="nav.guide">Guide</a>
+    <a href="leaderboards.html" class="active" data-t="nav.ranks">Ranks</a>
+    <span id="langPick"></span>
   </nav>
 </header>
 
 <main>
-  <h1>🏆 Leaderboards</h1>
-  <div class="sub" id="updated">Loading…</div>
+  <h1 data-t="lb.title">🏆 Leaderboards</h1>
+  <div class="sub" id="updated" data-t="lb.loading">Loading…</div>
 
   <div class="tabs" id="tabs">
-    <div class="tab level active" data-metric="level">🏆 Level</div>
-    <div class="tab ore"        data-metric="ore">⛏️ Ore</div>
-    <div class="tab gold"       data-metric="gold">💰 Gold</div>
-    <div class="tab hearts"     data-metric="hearts">❤️ Hearts</div>
-    <div class="tab diamonds"   data-metric="diamonds">💎 Gifts</div>
+    <div class="tab level active" data-metric="level" data-t="lb.tab.level">🏆 Level</div>
+    <div class="tab ore"        data-metric="ore" data-t="lb.tab.ore">⛏️ Ore</div>
+    <div class="tab gold"       data-metric="gold" data-t="lb.tab.gold">💰 Gold</div>
+    <div class="tab hearts"     data-metric="hearts" data-t="lb.tab.hearts">❤️ Hearts</div>
+    <div class="tab diamonds"   data-metric="diamonds" data-t="lb.tab.gifts">💎 Gifts</div>
   </div>
 
-  <input class="search" id="search" type="text" placeholder="Search your name…" autocomplete="off"/>
+  <input class="search" id="search" type="text" placeholder="Search your name…" autocomplete="off" data-t-placeholder="lb.search"/>
 
-  <div class="board" id="board"><div class="empty">Loading…</div></div>
+  <div class="board" id="board"><div class="empty" data-t="lb.loading">Loading…</div></div>
 
-  <footer>Updated each stream — all-time standings · Tara!</footer>
+  <footer data-t="lb.footer">Updated each stream — all-time standings · Tara!</footer>
 </main>
 
+<script src="lang.js"></script>
 <script>
   var CLASS_ICONS = { warrior:"⚔️", mage:"🔮", rogue:"🗡️", ranger:"🏹" };
-  var state = { players: [], metric: "level", q: "" };
+  var state = { players: [], metric: "level", q: "", updatedAt: 0, failed: false };
 
+  function t(key, english){ return window.I18N ? window.I18N.t(key, english) : english; }
   function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
   function fmt(n){ return (Number(n)||0).toLocaleString(); }
   function ago(ms){
     var s = Math.max(0, Math.floor((Date.now()-ms)/1000));
-    if (s < 90) return "just now";
-    var m = Math.floor(s/60); if (m < 60) return m+" min ago";
-    var h = Math.floor(m/60); if (h < 24) return h+" hr ago";
-    return Math.floor(h/24)+" days ago";
+    if (s < 90) return t("lb.ago.now", "just now");
+    var m = Math.floor(s/60); if (m < 60) return t("lb.ago.min", "{n} min ago").replace("{n}", m);
+    var h = Math.floor(m/60); if (h < 24) return t("lb.ago.hr", "{n} hr ago").replace("{n}", h);
+    return t("lb.ago.days", "{n} days ago").replace("{n}", Math.floor(h/24));
+  }
+  function renderSummary(){
+    var el = document.getElementById("updated");
+    if (state.failed) { el.textContent = t("lb.na", "Leaderboard not available yet."); return; }
+    if (!state.updatedAt) return;
+    el.textContent = t("lb.summary", "{n} players · updated {ago}")
+      .replace("{n}", state.players.length).replace("{ago}", ago(state.updatedAt));
   }
 
   function render(){
@@ -103,7 +113,9 @@
     var q = state.q.trim().toLowerCase();
     if (!ranked.length){
       board.innerHTML = '<div class="empty">' +
-        (state.metric === "diamonds" ? "No gifts yet — be the first!" : "No players yet — be the first!") +
+        (state.metric === "diamonds"
+          ? t("lb.empty.gifts", "No gifts yet — be the first!")
+          : t("lb.empty.players", "No players yet — be the first!")) +
         '</div>';
       return;
     }
@@ -139,14 +151,21 @@
     .then(function(r){ return r.json(); })
     .then(function(d){
       state.players = (d && d.players) || [];
-      document.getElementById("updated").textContent =
-        state.players.length + " players · updated " + ago((d && d.updatedAt) || Date.now());
+      state.updatedAt = (d && d.updatedAt) || Date.now();
+      renderSummary();
       render();
     })
     .catch(function(){
-      document.getElementById("updated").textContent = "Leaderboard not available yet.";
-      document.getElementById("board").innerHTML = '<div class="empty">No data yet — check back after a stream!</div>';
+      state.failed = true;
+      renderSummary();
+      document.getElementById("board").innerHTML =
+        '<div class="empty">' + t("lb.nodata", "No data yet — check back after a stream!") + '</div>';
     });
+
+  if (window.I18N) window.I18N.onChange(function(){
+    renderSummary();
+    if (state.players.length || state.updatedAt) render();
+  });
 </script>
 </body>
 </html>
