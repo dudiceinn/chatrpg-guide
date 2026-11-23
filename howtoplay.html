@@ -169,6 +169,20 @@
         padding: 4px 9px; border-radius: 999px; flex-shrink: 0;
       }
 
+      /* refine rate table */
+      .tbl {
+        display: grid; grid-template-columns: auto 1fr 1fr auto;
+        gap: 1px; background: var(--line);
+        border: 1px solid var(--line); border-radius: 11px; overflow: hidden;
+        font-size: 17px;
+      }
+      .tbl > span { background: rgba(11, 14, 26, 0.78); padding: 9px 12px; }
+      .tbl > .th {
+        background: rgba(76, 201, 240, 0.14); color: var(--cyan);
+        font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+      }
+      .tbl > .lv { color: var(--gold-soft); font-weight: 900; }
+
       /* command table */
       .cmds { display: flex; flex-direction: column; gap: 9px; }
       .crow {
@@ -216,6 +230,8 @@
 
         .slide h2 { font-size: 34px; }
         .crow .ck { flex-basis: 112px; }
+        .tbl { font-size: 15px; }
+        .tbl > span { padding: 7px 9px; }
       }
     </style>
   </head>
@@ -261,7 +277,7 @@
         <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r1"><span class="cmd">exp</span> &mdash; fight monsters for XP.</span></div>
           <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r2"><span class="cmd">mine</span> &mdash; head to the mine.</span></div>
           <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r3"><span class="cmd">rest</span> &mdash; recover at the inn.</span></div>
-          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r4"><span class="cmd">repair</span> &mdash; repair your pickaxe.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r4"><span class="cmd">repair</span> &mdash; repair all your tools.</span></div>
           <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.4.r5"><span class="cmd">help</span> &mdash; beginner help; <span class="cmd">commands</span> &mdash; more options.</span></div></div>
         <p class="tip" data-t="hp.4.tip">Commands work with or without <b>!</b>. Use <span class="cmd">stop</span> to stop your current activity.</p></section>
 
@@ -325,12 +341,81 @@
         <p class="tip" data-t="hp.11.tip">Start with the floor you can survive. The game shows current rewards, entry costs and wave effects.</p></section>
 
 
+
+      <section class="slide"><div class="kicker" data-t="hp.13.k">Stronger gear</div><h2 data-t="hp.13.h">Refine your gear</h2>
+        <p class="lead" data-t="hp.13.lead">Refining adds <b>+1</b> to your weapon or armor. Weapon refine raises the damage you deal; armor refine cuts the damage you take.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.13.r1"><span class="cmd">gear</span> &mdash; see your refine levels and your <b>ELU</b> and <b>ORI</b> stock.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.13.r2"><span class="cmd">refine1</span> &mdash; attempt your weapon, spending <b>ORI</b>. <span class="cmd">refine2</span> &mdash; attempt your armor, spending <b>ELU</b>. Your hero walks to the smithy pedestal.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.13.r3">ELU and ORI drop in the <b>Endless Tower</b> &mdash; roughly 10% per monster each. Farm floors close to your level; drops shrink once your hero outlevels the floor.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.13.r4"><span class="cmd">diarefine1</span> / <span class="cmd">diarefine2</span> &mdash; the same attempt with <b>+20%</b> success, for 50 Arena Coins on top.</span></div></div>
+        <p class="tip" data-t="hp.13.tip">Every attempt is a roll. A failure still spends the gold and the material, and from <b>+6</b> upward a failure has a <b>30%</b> chance to knock that piece down one level. The cap is +10.</p></section>
+
+
+      <section class="slide"><div class="kicker" data-t="hp.14.k">Refine costs</div><h2 data-t="hp.14.h">Rates and materials</h2>
+        <p class="lead" data-t="hp.14.lead">Each next level has its own success rate, and the costs are spent whether the attempt lands or not.</p>
+        <div class="tbl">
+          <span class="th" data-t="hp.14.c1">Level</span><span class="th" data-t="hp.14.c2">Success</span><span class="th" data-t="hp.14.c3">Gold</span><span class="th" data-t="hp.14.c4">ELU/ORI</span>
+          <span class="lv">+1</span><span>90%</span><span>300</span><span>1</span>
+          <span class="lv">+2</span><span>80%</span><span>600</span><span>1</span>
+          <span class="lv">+3</span><span>70%</span><span>1,200</span><span>2</span>
+          <span class="lv">+4</span><span>60%</span><span>2,500</span><span>2</span>
+          <span class="lv">+5</span><span>50%</span><span>5,000</span><span>3</span>
+          <span class="lv">+6</span><span>40%</span><span>10,000</span><span>3</span>
+          <span class="lv">+7</span><span>30%</span><span>10,000</span><span>4</span>
+          <span class="lv">+8</span><span>20%</span><span>10,000</span><span>4</span>
+          <span class="lv">+9</span><span>10%</span><span>10,000</span><span>5</span>
+          <span class="lv">+10</span><span>0%</span><span>10,000</span><span>5</span>
+        </div>
+        <p class="tip" data-t="hp.14.tip">A normal <b>+10</b> cannot land at 0% &mdash; only <span class="cmd">diarefine</span> reaches it, at 20%. Refines count in the tower and in duels: weapon +5 is <b>&times;1.5</b> damage, and +10 is <b>&times;3</b>.</p></section>
+
+
+      <section class="slide"><div class="kicker" data-t="hp.15.k">Village work</div><h2 data-t="hp.15.h">Choose a profession</h2>
+        <p class="lead" data-t="hp.15.lead">A profession is steady income: your hero works a spot on its own and brings back ingredients.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.15.r1"><span class="cmd">prof</span> &mdash; open the profession panel: level, tool, durability and ingredients.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.15.r2"><span class="cmd">prof fish</span>, <span class="cmd">prof farm</span> or <span class="cmd">prof herd</span> &mdash; pick one for <b>10,000 hearts</b>. Add <span class="cmd">confirm</span> to pay.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.15.r3">Only one profession is active at a time. Switching locks for <b>3 days</b>, and each profession keeps its own progress.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.15.r4"><span class="cmd">fish1</span>, <span class="cmd">farm1</span> or <span class="cmd">herd1</span> &mdash; send your hero to work. <span class="cmd">stop</span> ends the shift.</span></div></div>
+        <p class="tip" data-t="hp.15.tip">Mining is its own profession and never locks: <span class="cmd">mine</span> levels it while you dig. Every profession levels to <b>50</b>.</p></section>
+
+
+      <section class="slide"><div class="kicker" data-t="hp.16.k">Tools &amp; kitchen</div><h2 data-t="hp.16.h">Drops, tools and cooking</h2>
+        <p class="lead" data-t="hp.16.lead">One work cycle takes <b>10 seconds</b> and has a <b>1.5%</b> chance of an ingredient.</p>
+        <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.16.r1">Fishing brings <b>Cod</b>, farming brings <b>Mint</b>, herding brings <b>Eggs</b>.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.16.r2">Each cycle wears the tool by 1 of <b>180</b>, about 30 minutes of work. When it breaks, work stops: <span class="cmd">repair</span> at the smithy, and carried ore repairs far faster.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.16.r3"><span class="cmd">upgrade rod</span> / <span class="cmd">upgrade sickle</span> / <span class="cmd">upgrade crook</span> / <span class="cmd">upgrade pick</span> &mdash; 20 mining materials per step, plus the level that tier asks for: stone 5, copper 10, iron 20, gold 30, diamond 40, obsidian 50.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.16.r4"><span class="cmd">cook</span> &mdash; visit the kitchen; <span class="cmd">cook confirm</span> unlocks it for 10,000 hearts. Then <span class="cmd">cook1</span> Herbed Cod, <span class="cmd">cook2</span> Herb Omelette or <span class="cmd">cook3</span> Fisher&rsquo;s Breakfast, one meal every 10 seconds.</span></div></div>
+        <p class="tip" data-t="hp.16.tip">Better tools roll <b>Fine</b> ingredients &mdash; 5% at stone up to 30% at obsidian &mdash; and Fine goods carry their own names: Carp, Sage and Milk. Meals keep in your bag; they are planned as pet food.</p></section>
+
+      <section class="slide"><div class="kicker">mine</div><h2 data-t="hp.17.h">Grow your tools</h2>
+        <p class="lead" data-t="hp.17.lead">Mining XP comes from active work: 1 XP every 10 seconds.</p>
+        <div class="rows">
+          <div class="row"><span class="ic">&#9874;</span><span class="tx" data-t="hp.17.r1">Tool unlocks at total mining time: <b>Stone</b> Lv5 / 1h; <b>Copper</b> Lv10 / 3h; <b>Iron</b> Lv20 / 20h; <b>Gold</b> Lv30 / 70h; <b>Diamond</b> Lv40 / 170h; <b>Obsidian</b> Lv50 / 320h. Upgrades still cost materials.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.17.r2"><span class="cmd">stat</span> shows level and XP; <span class="cmd">gear</span> shows tools. <span class="cmd">repair</span> repairs all owned tools, including your pickaxe.</span></div>
+        </div><p class="tip" data-t="hp.17.tip"><span class="cmd">me</span> finds your hero. <span class="cmd">zoomme</span> requests a close-up, with a 60-second cooldown.</p>
+      </section>
+
+      <section class="slide"><div class="kicker">bt</div><h2 data-t="hp.18.h">Trade ingredients</h2>
+        <p class="lead" data-t="hp.18.lead"><span class="cmd">bt</span> opens barter. One listing per player, no fees, expires after 7 days.</p>
+        <div class="rows">
+          <div class="row"><span class="ic">&#8596;</span><span class="tx" data-t="hp.18.r1"><span class="cmd">bt 5cod 4mint</span> offers 5 Cod for 4 Mint. Add <span class="cmd">x3</span> to offer three bundles.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.18.r2"><span class="cmd">bt take 1</span> takes listing 1; <span class="cmd">bt cancel 1</span> cancels your listing. Read the current ID on the board.</span></div>
+        </div><p class="tip" data-t="hp.18.tip">Trade Cod, Mint, Egg, Carp, Sage or Milk. Offered items are held until traded or returned. Listings can fill while you are offline.</p>
+      </section>
+
+      <section class="slide"><div class="kicker">build</div><h2 data-t="hp.19.h">Build the incubator</h2>
+        <p class="lead" data-t="hp.19.lead">Help at the north gate: 100 different builders and 2,000 Planks!</p>
+        <div class="rows">
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.19.r1"><span class="cmd">build</span> walks there, pledges your first visit and donates your carried Planks on arrival. Return with more anytime.</span></div>
+          <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.19.r2">Treants: 10% chance for 1 Plank. Red boss Treant: 10% for 5. Check <span class="cmd">bag</span> for Planks and Pet Eggs.</span></div>
+        </div><p class="tip" data-t="hp.19.tip">Common Pet Eggs: Beholder 0.5%; fishing, farming or herding 0.01% per completed cycle. Hatching and pet feeding are coming later.</p>
+      </section>
+
       <section class="slide"><div class="kicker" data-t="hp.12.k">Ready to play?</div><h2 data-t="hp.12.h">Back to the live</h2>
         <p class="lead" data-t="hp.12.lead">You only need one first action: <span class="cmd">exp</span>.</p>
         <div class="rows"><div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.12.r1">Open the TikTok LIVE and say hello.</span></div>
           <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.12.r2">Send <span class="cmd">exp</span> and watch your hero fight.</span></div>
           <div class="row"><span class="ic">&#10022;</span><span class="tx" data-t="hp.12.r3">Send <span class="cmd">help</span>, then follow your next quest.</span></div></div>
-        <p class="tip" data-t="hp.12.tip">Updated 15 November 2026 &mdash; <a href="index.html">Home</a> &mdash; <a href="leaderboards.html">Leaderboards</a></p></section>
+        <p class="tip" data-t="hp.12.tip">Updated 22 November 2026 &mdash; <a href="index.html">Home</a> &mdash; <a href="leaderboards.html">Leaderboards</a></p></section>
 
       <div class="controls">
         <button id="btnPrev" data-t="ui.prev">‹ Prev</button>
